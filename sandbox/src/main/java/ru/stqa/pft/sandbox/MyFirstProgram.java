@@ -15,9 +15,9 @@ public class MyFirstProgram {
 
 
 
-    Point p1 = new Point (1,1);
+    Point p1 = new Point (3,5);
 
-    Point p2 = new Point (2,2);
+    Point p2 = new Point (7,11);
 
     double d = p1.distance (p2);
     System.out.println("Distance between p1(" +p1.x + "," + p1.y + ") and p2(" + p2.x + "," + p2.y + ") = " + d);
