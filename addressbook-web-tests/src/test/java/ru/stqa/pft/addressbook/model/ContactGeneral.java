@@ -1,10 +1,10 @@
-package ru.stqa.pft.addressbook;
+package ru.stqa.pft.addressbook.model;
 
-public class GroupGeneral {
+public class ContactGeneral {
   private final String name;
   private final String lastname;
 
-  public GroupGeneral(String name, String lastname) {
+  public ContactGeneral(String name, String lastname) {
     this.name = name;
     this.lastname = lastname;
   }

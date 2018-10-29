@@ -1,10 +1,10 @@
-package ru.stqa.pft.addressbook;
+package ru.stqa.pft.addressbook.model;
 
-public class GroupCompanyInfo {
+public class ContactCompanyInfo {
   private final String company;
   private final String addressCompany;
 
-  public GroupCompanyInfo(String company, String addressCompany) {
+  public ContactCompanyInfo(String company, String addressCompany) {
     this.company = company;
     this.addressCompany = addressCompany;
   }

@@ -1,11 +1,11 @@
-package ru.stqa.pft.addressbook;
+package ru.stqa.pft.addressbook.model;
 
-public class GroupBirth {
+public class ContactBirth {
   private final String bday;
   private final String dmonth;
   private final String byear;
 
-  public GroupBirth(String bday, String dmonth, String byear) {
+  public ContactBirth(String bday, String dmonth, String byear) {
     this.bday = bday;
     this.dmonth = dmonth;
     this.byear = byear;

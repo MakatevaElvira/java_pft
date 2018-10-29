@@ -1,4 +1,4 @@
-package ru.stqa.pft.addressbook;
+package ru.stqa.pft.addressbook.tests;
 
 import java.util.concurrent.TimeUnit;
 
@@ -7,6 +7,7 @@ import org.testng.annotations.*;
 import org.openqa.selenium.*;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.Select;
+import ru.stqa.pft.addressbook.model.*;
 
 public class ContactCreationTests {
   private WebDriver wd;
@@ -34,7 +35,7 @@ public class ContactCreationTests {
 
     goToContactPage();
     initContactCreation();
-    fillContactForm(new GroupGeneral("Elvira", "Makateva"), new GroupCompanyInfo("Bank", "Saratov"), new GroupNumber("+79008885522", "+79007775522", "+79005552255"), new GroupEmails("mak@mail.ru", "mak1@mail.ru", "mak3@mail.ru"), new GroupBirth("1", "December", "1990"), "Test1", new GroupSecondary("Saratov2", "Saratov3", "else"));
+    fillContactForm(new ContactGeneral("Elvira", "Makateva"), new ContactCompanyInfo("Bank", "Saratov"), new ContactNumber("+79008885522", "+79007775522", "+79005552255"), new ContactEmails("mak@mail.ru", "mak1@mail.ru", "mak3@mail.ru"), new ContactBirth("1", "December", "1990"), "Test1", new ContactSecondary("Saratov2", "Saratov3", "else"));
     submintContactCreation();
     returnToContactPage();
     logout();
@@ -52,10 +53,10 @@ public class ContactCreationTests {
     wd.findElement(By.xpath("(//input[@name='submit'])[2]")).click();
   }
 
-  private void fillContactForm(GroupGeneral groupGeneral,
-                               GroupCompanyInfo groupCompanyInfo, GroupNumber groupNumber,
-                               GroupEmails groupEmails, GroupBirth groupBirth, String contactsGroup,
-                               GroupSecondary groupSecondary) {
+  private void fillContactForm(ContactGeneral groupGeneral,
+                               ContactCompanyInfo groupCompanyInfo, ContactNumber groupNumber,
+                               ContactEmails groupEmails, ContactBirth groupBirth, String contactsGroup,
+                               ContactSecondary groupSecondary) {
     wd.findElement(By.name("firstname")).click();
     wd.findElement(By.name("firstname")).clear();
     wd.findElement(By.name("firstname")).sendKeys(groupGeneral.getName());
@@ -97,7 +98,7 @@ public class ContactCreationTests {
     wd.findElement(By.name("byear")).sendKeys(groupBirth.getByear());
     wd.findElement(By.name("new_group")).click();
     new Select(wd.findElement(By.name("new_group"))).selectByVisibleText(contactsGroup);
-    wd.findElement(By.xpath("(//option[@value='4'])[3]")).click();
+    wd.findElement(By.xpath("(//option[@value='9'])[3]")).click();
     wd.findElement(By.name("address2")).click();
     wd.findElement(By.name("address2")).clear();
     wd.findElement(By.name("address2")).sendKeys(groupSecondary.getAddress2());
@@ -118,7 +119,7 @@ public class ContactCreationTests {
   }
 
   @AfterMethod(alwaysRun = true)
-  public void tearDown() throws Exception {
+  public void tearDown()  {
     wd.quit();
   }
 

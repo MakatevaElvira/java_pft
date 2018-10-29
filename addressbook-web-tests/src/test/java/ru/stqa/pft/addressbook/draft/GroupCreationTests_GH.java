@@ -1,4 +1,4 @@
-package ru.stqa.pft.addressbook;
+package ru.stqa.pft.addressbook.draft;
 
 import java.util.regex.Pattern;
 import java.util.concurrent.TimeUnit;
