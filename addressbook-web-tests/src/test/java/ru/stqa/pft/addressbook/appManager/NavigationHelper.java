@@ -10,7 +10,6 @@ public class NavigationHelper extends HelperBase {
     super(wd);
 
 
-
   }
 
   public void gotoGroupPage() {
