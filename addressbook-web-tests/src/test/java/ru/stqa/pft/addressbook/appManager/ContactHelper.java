@@ -1,13 +1,18 @@
 package ru.stqa.pft.addressbook.appManager;
 
+import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import ru.stqa.pft.addressbook.model.*;
 
+import static org.testng.Assert.assertTrue;
+
 public class ContactHelper extends HelperBase {
+  private boolean acceptNextAlert = true;
 
   public ContactHelper(FirefoxDriver wd) {
    super(wd);
+
   }
 
   public void returnToContactPage() {
@@ -51,4 +56,40 @@ public class ContactHelper extends HelperBase {
   }
 
 
- }
+  public void selectContact() {
+    click(By.name("selected[]"));
+  }
+
+  public void initContactModification() {
+    click(By.cssSelector("img[alt=\"Edit\"]"));
+  }
+
+  public void submitContactModification() {
+    click(By.name("update"));
+  }
+
+  public void fillContactFormGeneral(ContactGeneral groupGeneral) {
+    type(By.name("firstname"),groupGeneral.getName());
+    type(By.name("lastname"),groupGeneral.getLastname());
+  }
+
+  public void deleteSelectedContact() {
+    click(By.xpath("//input[@value='Delete']"));
+    assertTrue(closeAlertAndGetItsText().matches("^Delete 1 addresses[\\s\\S]$"));
+    acceptNextAlert = true;
+  }
+  private String closeAlertAndGetItsText() {
+    try {
+      Alert alert = wd.switchTo().alert();
+      String alertText = alert.getText();
+      if (acceptNextAlert) {
+        alert.accept();
+      } else {
+        alert.dismiss();
+      }
+      return alertText;
+    } finally {
+      acceptNextAlert = true;
+    }
+  }
+}
