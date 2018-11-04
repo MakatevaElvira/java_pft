@@ -1,12 +1,11 @@
 package ru.stqa.pft.addressbook.appManager;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
 import java.util.concurrent.TimeUnit;
 
 public class ApplicationManager {
+
   FirefoxDriver wd;
 
   public ContactHelper contactHelper ;
@@ -47,14 +46,6 @@ public class ApplicationManager {
     return sessionHelper;
   }
 
-      public boolean isAlertPresent() {
-      try {
-        wd.switchTo().alert();
-        return true;
-      } catch (NoAlertPresentException e) {
-        return false;
-      }
-    }
 
 
-  }
+}

@@ -6,6 +6,7 @@ import ru.stqa.pft.addressbook.model.GroupData;
 
 public class GroupHelper extends HelperBase {
 
+
   public GroupHelper(FirefoxDriver wd) {
     super(wd);
   }
@@ -30,5 +31,9 @@ public class GroupHelper extends HelperBase {
 
   public void deletSelectedGroups() {
     click(By.name("delete"));
+  }
+
+  public void selectGroup() {
+   click(By.name("selected[]"));
   }
 }

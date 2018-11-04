@@ -1,8 +1,5 @@
 package ru.stqa.pft.addressbook.tests;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.NoAlertPresentException;
-import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
@@ -31,9 +28,5 @@ public class TestBase extends ApplicationManager {
     return app;
   }
 
-  private class MyApplicationManager extends ApplicationManager {
-    public void logout() {
-      wd.findElement(By.linkText("Logout")).click();
-    }
-  }
+
 }
