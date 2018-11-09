@@ -3,6 +3,7 @@ package ru.stqa.pft.addressbook.appManager;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.testng.Assert;
 import ru.stqa.pft.addressbook.model.*;
 
 import static org.testng.Assert.assertTrue;
@@ -27,7 +28,7 @@ public class ContactHelper extends HelperBase {
   public void fillContactForm(ContactGeneral groupGeneral,
                               ContactCompanyInfo groupCompanyInfo, ContactNumber groupNumber,
                               ContactEmails groupEmails, ContactBirth groupBirth, String contactsGroup,
-                              ContactSecondary groupSecondary) {
+                              ContactSecondary groupSecondary, boolean creation) {
     type(By.name("firstname"),groupGeneral.getName());
     type(By.name("lastname"),groupGeneral.getLastname());
     type(By.name("company"),groupCompanyInfo.getCompany());
@@ -43,8 +44,12 @@ public class ContactHelper extends HelperBase {
     click(By.name("bmonth"));
     select(By.name("bmonth"), groupBirth.getDmonth(), By.xpath("//option[@value='December']"));
     type(By.name("byear"),groupBirth.getByear());
-    click(By.name("new_group"));
-    select(By.name("new_group"), contactsGroup, By.xpath("(//option[@value='19'])[3]"));
+
+    if (creation) {
+      click(By.name("new_group"));
+      select(By.name("new_group"), contactsGroup, By.xpath("(//option[@value='19'])[3]"));
+    } else Assert.assertFalse((isElementPresent(By.name("new_group"))));
+
     type(By.name("address2"),groupSecondary.getAddress2());
     type(By.name("phone2"),groupSecondary.getAddressHome());
     type(By.name("notes"),groupSecondary.getElses());

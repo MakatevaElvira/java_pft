@@ -28,7 +28,6 @@ public class HelperBase {
 
     }
 
-
   }
 
   public boolean isElementPresent(By by) {
