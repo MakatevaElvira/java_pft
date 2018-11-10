@@ -45,9 +45,12 @@ public class ContactHelper extends HelperBase {
     select(By.name("bmonth"), groupBirth.getDmonth(), By.xpath("//option[@value='December']"));
     type(By.name("byear"),groupBirth.getByear());
 
-    if (creation) {
-      click(By.name("new_group"));
-      select(By.name("new_group"), contactsGroup, By.xpath("(//option[@value='36'])"));
+    if (creation)  {
+      if (isElementPresent(By.xpath("(//option[@value='36'])")) ){
+        click(By.name("new_group"));
+        select(By.name("new_group"), contactsGroup, By.xpath("(//option[@value='36'])"));
+      } return;
+
     } else Assert.assertFalse((isElementPresent(By.name("new_group"))));
 
     type(By.name("address2"),groupSecondary.getAddress2());
