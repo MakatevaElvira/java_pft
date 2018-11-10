@@ -47,7 +47,7 @@ public class ContactHelper extends HelperBase {
 
     if (creation) {
       click(By.name("new_group"));
-      select(By.name("new_group"), contactsGroup, By.xpath("(//option[@value='19'])[3]"));
+      select(By.name("new_group"), contactsGroup, By.xpath("(//option[@value='36'])"));
     } else Assert.assertFalse((isElementPresent(By.name("new_group"))));
 
     type(By.name("address2"),groupSecondary.getAddress2());
@@ -96,5 +96,26 @@ public class ContactHelper extends HelperBase {
     } finally {
       acceptNextAlert = true;
     }
+  }
+
+
+  public boolean isThereAContact() {
+    return isElementPresent(By.name("selected[]"));
+  }
+
+  public void createContact(ContactGeneral general, ContactCompanyInfo companyInfo,
+                            ContactNumber number, ContactEmails emails, ContactBirth birth,
+                            String contactsGroup, ContactSecondary secondary, boolean creation) {
+    initContactCreation();
+    fillContactForm (
+            general,
+            companyInfo,
+            number,
+            emails,
+            birth,
+            contactsGroup,
+            secondary, creation);
+    submintContactCreation();
+    returnToContactPage();
   }
 }
