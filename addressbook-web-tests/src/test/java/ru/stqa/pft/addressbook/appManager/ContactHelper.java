@@ -110,15 +110,12 @@ public class ContactHelper extends HelperBase {
                             ContactNumber number, ContactEmails emails, ContactBirth birth,
                             String contactsGroup, ContactSecondary secondary, boolean creation) {
     initContactCreation();
-    fillContactForm (
-            general,
-            companyInfo,
-            number,
-            emails,
-            birth,
-            contactsGroup,
-            secondary, creation);
+    fillContactForm (general, companyInfo, number, emails, birth, contactsGroup, secondary, creation);
     submintContactCreation();
     returnToContactPage();
+  }
+
+  public int getContactCount() {
+   return wd.findElements(By.name("selected[]")).size();
   }
 }
