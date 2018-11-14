@@ -21,7 +21,7 @@ public class ContactModificationTests extends TestBase {
               new ContactSecondary(null, null, null), true);
     }
     List<ContactGeneral> before = app.getContactHelper().getContactList();
-    app.getContactHelper().selectContact();
+    app.getContactHelper().selectContact(0);
     app.getContactHelper().initContactModification();
     app.getContactHelper().fillContactForm(
             new ContactGeneral("Elle", "Mak"),
@@ -35,6 +35,9 @@ public class ContactModificationTests extends TestBase {
     app.getContactHelper().returnToContactPage();
     List<ContactGeneral> after = app.getContactHelper().getContactList();
     Assert.assertEquals(after.size(), before.size() );
+
+    Assert.assertEquals(before, after);
+
     app.getSessionHelper().logout();
 
   }

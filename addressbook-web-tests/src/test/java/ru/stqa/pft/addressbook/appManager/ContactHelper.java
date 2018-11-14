@@ -68,8 +68,9 @@ public class ContactHelper extends HelperBase {
   }
 
 
-  public void selectContact() {
-    click(By.name("selected[]"));
+  public void selectContact(int index) {
+    wd.findElements(By.name("selected[]")).get(index).click();
+
   }
 
   public void initContactModification() {
@@ -125,6 +126,7 @@ public class ContactHelper extends HelperBase {
 
   public List<ContactGeneral> getContactList() {
     List<ContactGeneral> contacts = new ArrayList<ContactGeneral>();
+
     List<WebElement> elements = wd.findElements(By.name("selected[]"));
     for (WebElement element : elements){
       String name = element.getText();
