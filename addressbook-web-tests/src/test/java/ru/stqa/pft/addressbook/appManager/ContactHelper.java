@@ -1,5 +1,6 @@
 package ru.stqa.pft.addressbook.appManager;
 
+import com.sun.xml.internal.bind.v2.model.core.ID;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -73,8 +74,10 @@ public class ContactHelper extends HelperBase {
 
   }
 
-  public void initContactModification() {
-    click(By.cssSelector("img[alt=\"Edit\"]"));
+  public void initContactModification(int index) {
+    wd.findElements(By.xpath("//img[@alt='Edit']")).get(index).click();
+
+
   }
 
   public void submitContactModification() {
@@ -127,13 +130,20 @@ public class ContactHelper extends HelperBase {
   public List<ContactGeneral> getContactList() {
     List<ContactGeneral> contacts = new ArrayList<ContactGeneral>();
 
-    List<WebElement> elements = wd.findElements(By.name("selected[]"));
+    List<WebElement> elements = wd.findElements(By.cssSelector("tr.entry"));
     for (WebElement element : elements){
-      String name = element.getText();
-      String lastname = element.getText();
-      ContactGeneral general = new ContactGeneral(name,lastname);
+      String name = element.findElement(By.xpath("//td[3]")).getTagName();
+      String lastname = element.findElement(By.xpath("//td[2]")).getTagName();
+      String id = element.findElement(By.xpath("//td/input")).getAttribute("value");
+
+      ContactGeneral general = new ContactGeneral(id, name, lastname);
       contacts.add(general);
     }
     return contacts;
+  }
+
+  public void fillGeneralContact(ContactGeneral groupGeneral) {
+    type(By.name("firstname"),groupGeneral.getName());
+    type(By.name("lastname"),groupGeneral.getLastname());
   }
 }
