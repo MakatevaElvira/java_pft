@@ -122,6 +122,12 @@ public class ContactHelper extends HelperBase {
     submintContactCreation();
     returnToContactPage();
   }
+  public void createContactGeneral(ContactGeneral general) {
+    initContactCreation();
+    fillGeneralContact (general);
+    submintContactCreation();
+    returnToContactPage();
+  }
 
   public int getContactCount() {
    return wd.findElements(By.name("selected[]")).size();
@@ -133,7 +139,7 @@ public class ContactHelper extends HelperBase {
     for (WebElement element : elements){
       String name = element.findElement(By.xpath("./td[3]")).getText();
       String lastname = element.findElement(By.xpath("./td[2]")).getText();
-      String id = element.findElement(By.xpath("./td/input")).getAttribute("value");
+      int id = Integer.parseInt(element.findElement(By.xpath("./td/input")).getAttribute("value"));
 
       ContactGeneral general = new ContactGeneral(id, name, lastname);
       contacts.add(general);

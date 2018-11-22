@@ -23,15 +23,15 @@ public class ContactModificationTests extends TestBase {
     }
     List<ContactGeneral> before = app.getContactHelper().getContactList();
     app.getContactHelper().initContactModification(before.size()-1);
-    ContactGeneral groupGeneral = new ContactGeneral(before.get(before.size()-1).getId(),"Elle", "Mak");
-    app.getContactHelper().fillGeneralContact(groupGeneral);
+    ContactGeneral contactG = new ContactGeneral(before.get(before.size()-1).getId(),"Elle", "Mak");
+    app.getContactHelper().fillGeneralContact(contactG);
     app.getContactHelper().submitContactModification();
     app.getContactHelper().returnToContactPage();
     List<ContactGeneral> after = app.getContactHelper().getContactList();
     Assert.assertEquals(after.size(), before.size() );
 
     before.remove(before.size()-1);
-    before.add(groupGeneral);
+    before.add(contactG);
     Assert.assertEquals(new HashSet<>(before), new HashSet<>(after));
 
     app.getSessionHelper().logout();
