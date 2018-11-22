@@ -8,7 +8,7 @@ public class ContactGeneral {
   private final String lastname;
 
   public ContactGeneral(String name, String lastname) {
-    this.id = 0;
+    this.id = Integer.MAX_VALUE;
     this.name = name;
     this.lastname = lastname;
   }
@@ -39,14 +39,13 @@ public class ContactGeneral {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
     ContactGeneral general = (ContactGeneral) o;
-    return id == general.id &&
-            Objects.equals(name, general.name) &&
+    return Objects.equals(name, general.name) &&
             Objects.equals(lastname, general.lastname);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, name, lastname);
+    return Objects.hash(name, lastname);
   }
 
   @Override
