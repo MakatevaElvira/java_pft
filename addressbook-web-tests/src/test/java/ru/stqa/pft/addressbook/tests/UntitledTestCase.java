@@ -9,6 +9,7 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.Select;
 
 public class UntitledTestCase {
+
   private WebDriver driver;
   private String baseUrl;
   private boolean acceptNextAlert = true;
@@ -21,7 +22,7 @@ public class UntitledTestCase {
     driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
   }
 
-  @Test
+  @Test (enabled = false)
   public void testUntitledTestCase() throws Exception {
     driver.findElement(By.cssSelector("img[alt=\"Edit\"]")).click();
   }

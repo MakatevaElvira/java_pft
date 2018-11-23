@@ -7,7 +7,7 @@ import ru.stqa.pft.addressbook.model.*;
 import java.util.List;
 
 public class ContactDeletionTests extends TestBase {
-  @Test
+  @Test(enabled = false)
   public void testContactDeletion(){
     app.getNavigationHelper().goToContactPage();
     if (! app.getContactHelper().isThereAContact()) {

@@ -36,6 +36,12 @@ public class GroupHelper extends HelperBase {
   public void deleteSelectedGroups() {
     click(By.name("delete"));
   }
+  public void findMsg() {
+    wd.findElement(By.cssSelector("div.msgbox"));
+  }
+  public void findGrop() {
+    wd.findElement(By.linkText("groups"));
+  }
 
   public void selectGroup(int index) {
     wd.findElements(By.name("selected[]")).get(index).click();
@@ -54,6 +60,7 @@ public class GroupHelper extends HelperBase {
     initGroupCreation();
     fillGroupForm(group);
     submitGroupCreation();
+    findMsg();
     returnToGroupPage();
   }
 
