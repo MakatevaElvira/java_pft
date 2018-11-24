@@ -115,15 +115,15 @@ public class ContactHelper extends HelperBase {
     submintContactCreation();
     returnToContactPage();
   }
-  public void createContactGeneral(ContactGeneral general) {
+  public void create(ContactGeneral contact) {
     initContactCreation();
-    fillGeneralContact (general);
+    fillGeneralContact (contact);
     submintContactCreation();
     returnToContactPage();
   }
-  public void modify(ContactGeneral contactG) {
-    initContactModificationById(contactG.getId());
-    fillGeneralContact(contactG);
+  public void modify(ContactGeneral contact) {
+    initContactModificationById(contact.getId());
+    fillGeneralContact(contact);
     submitContactModification();
     returnToContactPage();
   }
@@ -132,8 +132,8 @@ public class ContactHelper extends HelperBase {
     deleteSelectedContact();
   }
 
-  public Set<ContactGeneral> all() {
-    Set<ContactGeneral> contacts = new HashSet<ContactGeneral>();
+  public Contacts all() {
+    Contacts contacts = new Contacts();
     List<WebElement> elements = wd.findElements(By.cssSelector("tr[name=\"entry\"]"));
     for (WebElement element : elements){
       String name = element.findElement(By.xpath("./td[3]")).getText();
