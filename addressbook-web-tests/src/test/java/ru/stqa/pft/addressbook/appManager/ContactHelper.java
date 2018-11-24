@@ -114,9 +114,9 @@ public class ContactHelper extends HelperBase {
     return isElementPresent(By.name("selected[]"));
   }
 
-  public void createContact(ContactGeneral general, ContactCompanyInfo companyInfo,
-                            ContactNumber number, ContactEmails emails, ContactBirth birth,
-                            String contactsGroup, ContactSecondary secondary, boolean creation) {
+  public void create(ContactGeneral general, ContactCompanyInfo companyInfo,
+                     ContactNumber number, ContactEmails emails, ContactBirth birth,
+                     String contactsGroup, ContactSecondary secondary, boolean creation) {
     initContactCreation();
     fillContactForm (general, companyInfo, number, emails, birth, contactsGroup, secondary, creation);
     submintContactCreation();
@@ -128,13 +128,13 @@ public class ContactHelper extends HelperBase {
     submintContactCreation();
     returnToContactPage();
   }
-  public void modifyContact(int index, ContactGeneral contactG) {
+  public void modify(int index, ContactGeneral contactG) {
     initContactModification(index);
     fillGeneralContact(contactG);
     submitContactModification();
     returnToContactPage();
   }
-  public void deleteContact(int index) {
+  public void delete(int index) {
     selectContact(index);
     deleteSelectedContact();
 
@@ -144,7 +144,7 @@ public class ContactHelper extends HelperBase {
    return wd.findElements(By.name("selected[]")).size();
   }
 
-  public List<ContactGeneral> getContactList() {
+  public List<ContactGeneral> list() {
     List<ContactGeneral> contacts = new ArrayList<ContactGeneral>();
     List<WebElement> elements = wd.findElements(By.cssSelector("tr[name=\"entry\"]"));
     for (WebElement element : elements){

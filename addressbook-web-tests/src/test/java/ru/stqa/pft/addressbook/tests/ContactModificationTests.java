@@ -11,9 +11,9 @@ import java.util.List;
 public class ContactModificationTests extends TestBase {
   @BeforeMethod
   public void ensurePreconditions() {
-    app.getNavigationHelper().goToContactPage();
-    if (! app.getContactHelper().isThereAContact()) {
-      app.getContactHelper().createContact(
+    app.goTo().contactPage();
+    if (app.contact().list().size()==0) {
+      app.contact().create(
               new ContactGeneral("Elvira", "Makateva"),
               new ContactCompanyInfo("Bank", "Saratov"),
               new ContactNumber("+79008885522", "+79007775522", "+79005552255"),
@@ -25,11 +25,11 @@ public class ContactModificationTests extends TestBase {
   }
   @Test
   public void testContactModification(){
-    List<ContactGeneral> before = app.getContactHelper().getContactList();
+    List<ContactGeneral> before = app.contact().list();
     int index = before.size()-1;
     ContactGeneral contactG = new ContactGeneral(before.get(index).getId(),"Elle", "Mak");
-    app.getContactHelper().modifyContact(index, contactG);
-    List<ContactGeneral> after = app.getContactHelper().getContactList();
+    app.contact().modify(index, contactG);
+    List<ContactGeneral> after = app.contact().list();
     Assert.assertEquals(after.size(), before.size() );
 
     before.remove(index);
