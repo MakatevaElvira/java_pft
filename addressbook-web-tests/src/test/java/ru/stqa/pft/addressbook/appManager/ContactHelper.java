@@ -151,9 +151,7 @@ public class ContactHelper extends HelperBase {
       String name = element.findElement(By.xpath("./td[3]")).getText();
       String lastname = element.findElement(By.xpath("./td[2]")).getText();
       int id = Integer.parseInt(element.findElement(By.xpath("./td/input")).getAttribute("value"));
-
-      ContactGeneral general = new ContactGeneral(id, name, lastname);
-      contacts.add(general);
+      contacts.add(new ContactGeneral().withId(id).withName(name).withLastname(lastname));
     }
     return contacts;
   }

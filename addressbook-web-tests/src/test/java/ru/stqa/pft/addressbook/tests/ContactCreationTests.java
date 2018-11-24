@@ -14,7 +14,7 @@ public class ContactCreationTests extends TestBase {
 
     app.goTo().contactPage();
     List<ContactGeneral> before = app.contact().list();
-    ContactGeneral contactG = new ContactGeneral("Efilia", "Liopda");
+    ContactGeneral contactG = new ContactGeneral().withName("Efilia").withLastname("Liopda");
     app.contact().createContactGeneral(contactG);
 
     List<ContactGeneral> after = app.contact().list();

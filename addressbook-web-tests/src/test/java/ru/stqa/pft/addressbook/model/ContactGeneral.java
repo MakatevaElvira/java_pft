@@ -3,27 +3,27 @@ package ru.stqa.pft.addressbook.model;
 import java.util.Objects;
 
 public class ContactGeneral {
-  private int id;
-  private final String name;
-  private final String lastname;
-
-  public ContactGeneral(String name, String lastname) {
-    this.id = Integer.MAX_VALUE;
-    this.name = name;
-    this.lastname = lastname;
-  }
-  public ContactGeneral(int id,String name, String lastname) {
-    this.id = id;
-    this.name = name;
-    this.lastname = lastname;
-  }
+  private int id = Integer.MAX_VALUE;
+  private  String name;
+  private  String lastname;
 
   public int getId() {
     return id;
   }
 
-  public void setId(int id) {
+  public ContactGeneral withId(int id) {
     this.id = id;
+    return this;
+  }
+
+  public ContactGeneral withName(String name) {
+    this.name = name;
+    return this;
+  }
+
+  public ContactGeneral withLastname(String lastname) {
+    this.lastname = lastname;
+    return this;
   }
 
   public String getName() {
