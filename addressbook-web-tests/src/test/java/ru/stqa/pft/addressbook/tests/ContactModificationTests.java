@@ -7,12 +7,13 @@ import ru.stqa.pft.addressbook.model.*;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.Set;
 
 public class ContactModificationTests extends TestBase {
   @BeforeMethod
   public void ensurePreconditions() {
     app.goTo().contactPage();
-    if (app.contact().list().size()==0) {
+    if (app.contact().all().size()==0) {
       app.contact().create(
               new ContactGeneral().withName("Elvira").withLastname("Makateva"),
               new ContactCompanyInfo().withCompany("Bank").withAddressCompany("Saratov"),
@@ -25,18 +26,15 @@ public class ContactModificationTests extends TestBase {
   }
   @Test
   public void testContactModification(){
-    List<ContactGeneral> before = app.contact().list();
-    int index = before.size()-1;
-    ContactGeneral contactG = new ContactGeneral().withId(before.get(index).getId()).withName("Elle").withLastname( "Mak");
-    app.contact().modify(index, contactG);
-    List<ContactGeneral> after = app.contact().list();
+    Set<ContactGeneral> before = app.contact().all();
+    ContactGeneral modifyContact =  before.iterator().next();
+    ContactGeneral contactG = new ContactGeneral().withId(modifyContact.getId()).withName("Elle").withLastname( "Mak");
+    app.contact().modify(contactG);
+    Set<ContactGeneral> after = app.contact().all();
     Assert.assertEquals(after.size(), before.size() );
 
-    before.remove(index);
+    before.remove(modifyContact);
     before.add(contactG);
-    Comparator<? super ContactGeneral> byId = (c1, c2) -> Integer.compare(c1.getId(),c2.getId());
-    before.sort(byId);
-    after.sort(byId);
     Assert.assertEquals(before, after);
 
     app.getSessionHelper().logout();

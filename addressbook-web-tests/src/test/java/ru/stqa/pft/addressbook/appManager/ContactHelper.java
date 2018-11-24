@@ -8,7 +8,9 @@ import org.testng.Assert;
 import ru.stqa.pft.addressbook.model.*;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import static org.testng.Assert.assertTrue;
 
@@ -17,12 +19,10 @@ public class ContactHelper extends HelperBase {
 
   public ContactHelper(WebDriver wd) {
    super(wd);
-
   }
 
   public void returnToContactPage() {
     click(By.linkText("home page"));
-
   }
 
   public void submintContactCreation() {
@@ -60,33 +60,29 @@ public class ContactHelper extends HelperBase {
     type(By.name("address2"),groupSecondary.getAddress2());
     type(By.name("phone2"),groupSecondary.getAddressHome());
     type(By.name("notes"),groupSecondary.getElses());
-
   }
 
   public void initContactCreation() {
     click(By.linkText("add new"));
   }
 
-
   public void selectContact(int index) {
     wd.findElements(By.name("selected[]")).get(index).click();
-
   }
-
+  public void selectContactById(int id) {
+    wd.findElement(By.cssSelector("input[value='" + id +"']")).click();
+  }
   public void initContactModification(int index) {
     wd.findElements(By.cssSelector("img[alt=\"Edit\"]")).get(index).click();
-
-
+  }
+  public void initContactModificationById(int id) {
+    wd.findElement(By.cssSelector("a[href=\"edit.php?id=" + id + "\"]")).click();
   }
 
   public void submitContactModification() {
     click(By.name("update"));
   }
 
-  public void fillContactFormGeneral(ContactGeneral groupGeneral) {
-    type(By.name("firstname"),groupGeneral.getName());
-    type(By.name("lastname"),groupGeneral.getLastname());
-  }
 
   public void deleteSelectedContact() {
     click(By.xpath("//input[@value='Delete']"));
@@ -107,8 +103,6 @@ public class ContactHelper extends HelperBase {
       acceptNextAlert = true;
     }
   }
-
-
   public boolean isThereAContact() {
     return isElementPresent(By.name("selected[]"));
   }
@@ -127,24 +121,19 @@ public class ContactHelper extends HelperBase {
     submintContactCreation();
     returnToContactPage();
   }
-  public void modify(int index, ContactGeneral contactG) {
-    initContactModification(index);
+  public void modify(ContactGeneral contactG) {
+    initContactModificationById(contactG.getId());
     fillGeneralContact(contactG);
     submitContactModification();
     returnToContactPage();
   }
-  public void delete(int index) {
-    selectContact(index);
+  public void delete(ContactGeneral contact) {
+    selectContactById(contact.getId());
     deleteSelectedContact();
-
   }
 
-  public int getContactCount() {
-   return wd.findElements(By.name("selected[]")).size();
-  }
-
-  public List<ContactGeneral> list() {
-    List<ContactGeneral> contacts = new ArrayList<ContactGeneral>();
+  public Set<ContactGeneral> all() {
+    Set<ContactGeneral> contacts = new HashSet<ContactGeneral>();
     List<WebElement> elements = wd.findElements(By.cssSelector("tr[name=\"entry\"]"));
     for (WebElement element : elements){
       String name = element.findElement(By.xpath("./td[3]")).getText();
@@ -154,9 +143,9 @@ public class ContactHelper extends HelperBase {
     }
     return contacts;
   }
-
   public void fillGeneralContact(ContactGeneral groupGeneral) {
     type(By.name("firstname"),groupGeneral.getName());
     type(By.name("lastname"),groupGeneral.getLastname());
   }
+
 }
