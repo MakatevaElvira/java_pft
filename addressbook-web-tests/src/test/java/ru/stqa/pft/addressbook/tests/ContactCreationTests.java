@@ -5,12 +5,11 @@ import org.testng.annotations.Test;
 import ru.stqa.pft.addressbook.model.ContactGeneral;
 
 import java.util.Comparator;
-import java.util.HashSet;
 import java.util.List;
 
 public class ContactCreationTests extends TestBase {
 
-  @Test (enabled = false)
+  @Test
   public void testContactCreation() throws Exception {
 
     app.getNavigationHelper().goToContactPage();
@@ -27,8 +26,6 @@ public class ContactCreationTests extends TestBase {
     after.sort(byId);
     Assert.assertEquals(before, after);
 
-
-    app.getSessionHelper().logout();
   }
 
 }

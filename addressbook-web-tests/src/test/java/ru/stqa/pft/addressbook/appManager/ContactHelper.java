@@ -128,6 +128,17 @@ public class ContactHelper extends HelperBase {
     submintContactCreation();
     returnToContactPage();
   }
+  public void modifyContact(int index, ContactGeneral contactG) {
+    initContactModification(index);
+    fillGeneralContact(contactG);
+    submitContactModification();
+    returnToContactPage();
+  }
+  public void deleteContact(int index) {
+    selectContact(index);
+    deleteSelectedContact();
+
+  }
 
   public int getContactCount() {
    return wd.findElements(By.name("selected[]")).size();

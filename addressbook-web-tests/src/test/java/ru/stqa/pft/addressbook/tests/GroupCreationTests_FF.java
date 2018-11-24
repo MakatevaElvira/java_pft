@@ -9,7 +9,7 @@ import java.util.List;
 
 public class GroupCreationTests_FF extends TestBase {
 
-  @Test
+  @Test (enabled = false)
   public void testGroupCreation() throws Exception {
     app.getNavigationHelper().gotoGroupPage();
     List<GroupData> before = app.getGroupHelper().getGroupList();
@@ -24,7 +24,7 @@ public class GroupCreationTests_FF extends TestBase {
     before.sort(byId);
     after.sort(byId);
     Assert.assertEquals (before, after);
-    app.getSessionHelper().logout();
+
   }
 
 }
