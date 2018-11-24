@@ -1,13 +1,8 @@
 package ru.stqa.pft.addressbook.model;
 
 public class ContactCompanyInfo {
-  private final String company;
-  private final String addressCompany;
-
-  public ContactCompanyInfo(String company, String addressCompany) {
-    this.company = company;
-    this.addressCompany = addressCompany;
-  }
+  private  String company;
+  private  String addressCompany;
 
   public String getCompany() {
     return company;
@@ -15,5 +10,15 @@ public class ContactCompanyInfo {
 
   public String getAddressCompany() {
     return addressCompany;
+  }
+
+  public ContactCompanyInfo withCompany(String company) {
+    this.company = company;
+    return this;
+  }
+
+  public ContactCompanyInfo withAddressCompany(String addressCompany) {
+    this.addressCompany = addressCompany;
+    return this;
   }
 }

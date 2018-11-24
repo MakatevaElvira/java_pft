@@ -1,14 +1,23 @@
 package ru.stqa.pft.addressbook.model;
 
 public class ContactBirth {
-  private final String bday;
-  private final String dmonth;
-  private final String byear;
+  private  String bday;
+  private  String dmonth;
+  private  String byear;
 
-  public ContactBirth(String bday, String dmonth, String byear) {
+  public ContactBirth withBday(String bday) {
     this.bday = bday;
+    return this;
+  }
+
+  public ContactBirth withDmonth(String dmonth) {
     this.dmonth = dmonth;
+    return this;
+  }
+
+  public ContactBirth withByear(String byear) {
     this.byear = byear;
+    return this;
   }
 
   public String getBday() {

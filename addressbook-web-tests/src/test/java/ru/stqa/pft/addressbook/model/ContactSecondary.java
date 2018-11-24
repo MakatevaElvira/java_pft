@@ -1,14 +1,24 @@
 package ru.stqa.pft.addressbook.model;
 
 public class ContactSecondary {
-  private final String address2;
-  private final String addressHome;
-  private final String elses;
+  private  String address2;
+  private  String addressHome;
+  private  String elses;
 
-  public ContactSecondary(String address2, String addressHome, String elses) {
+
+  public ContactSecondary withAddress2(String address2) {
     this.address2 = address2;
+    return this;
+  }
+
+  public ContactSecondary withAddressHome(String addressHome) {
     this.addressHome = addressHome;
+    return this;
+  }
+
+  public ContactSecondary withElses(String elses) {
     this.elses = elses;
+    return this;
   }
 
   public String getAddress2() {
@@ -19,7 +29,6 @@ public class ContactSecondary {
     return addressHome;
   }
 
-  public String getElses() {
-    return elses;
+  public String getElses() {     return elses;
   }
 }

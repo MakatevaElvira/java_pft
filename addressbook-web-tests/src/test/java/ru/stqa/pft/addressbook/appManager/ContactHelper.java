@@ -1,6 +1,5 @@
 package ru.stqa.pft.addressbook.appManager;
 
-import com.sun.xml.internal.bind.v2.model.core.ID;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -39,7 +38,7 @@ public class ContactHelper extends HelperBase {
     type(By.name("company"),groupCompanyInfo.getCompany());
     type(By.name("address"),groupCompanyInfo.getAddressCompany());
     type(By.name("home"),groupNumber.getHomeNumber());
-    type(By.name("mobile"),groupNumber.getModileNumber());
+    type(By.name("mobile"),groupNumber.getMobileNumber());
     type(By.name("work"),groupNumber.getWorkNumber());
     type(By.name("email"),groupEmails.getEmail1());
     type(By.name("email2"),groupEmails.getEmail2());

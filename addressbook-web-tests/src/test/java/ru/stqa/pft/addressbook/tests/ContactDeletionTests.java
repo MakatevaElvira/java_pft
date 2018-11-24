@@ -14,12 +14,12 @@ public class ContactDeletionTests extends TestBase {
     if (app.contact().list().size()==0) {
       app.contact().create(
               new ContactGeneral().withName("Elvira").withLastname("Makateva"),
-              new ContactCompanyInfo("Bank", "Saratov"),
-              new ContactNumber("+79008885522", "+79007775522", "+79005552255"),
-              new ContactEmails("mak@mail.ru", "mak1@mail.ru", null),
-              new ContactBirth("1", "December", "1990"),
+              new ContactCompanyInfo().withCompany("Bank").withAddressCompany("Saratov"),
+              new ContactNumber().withHomeNumber("+79008885522").withMobileNumber("+79007775522").withWorkNumber("+79005552255"),
+              new ContactEmails().withEmail1("mak@mail.ru").withEmail2("mak2@mail.ru").withEmail3("mak2@mail.ru"),
+              new ContactBirth().withBday("1").withDmonth("December").withByear("1990"),
               "Test1",
-              new ContactSecondary(null, null, null), true);
+              new ContactSecondary().withAddress2("Moscow"), true);
     }
   }
   @Test
