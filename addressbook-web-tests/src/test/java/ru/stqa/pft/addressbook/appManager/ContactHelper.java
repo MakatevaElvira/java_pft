@@ -55,6 +55,7 @@ public class ContactHelper extends HelperBase {
     type(By.name("notes"),groupSecondary.getElses());
   }
 
+
   public void initContactCreation() {
     click(By.linkText("add new"));
   }
