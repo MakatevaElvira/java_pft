@@ -154,8 +154,10 @@ public class ContactHelper extends HelperBase {
     for (WebElement element : elements){
       String name = element.findElement(By.xpath("./td[3]")).getText();
       String lastname = element.findElement(By.xpath("./td[2]")).getText();
+      String[] phone = element.findElement(By.xpath("./td[6]")).getText().split("\n");
       int id = Integer.parseInt(element.findElement(By.xpath("./td/input")).getAttribute("value"));
-      contactCache.add(new ContactGeneral().withId(id).withName(name).withLastname(lastname));
+      contactCache.add(new ContactGeneral().withId(id).withName(name).withLastname(lastname)
+              .withHomeNumber(phone[0]).withMobileNumber(phone[1]).withWorkNumber(phone[2]));
     }
     return new Contacts(contactCache);
   }
@@ -168,7 +170,7 @@ public class ContactHelper extends HelperBase {
   public ContactGeneral infoFromEditForm(ContactGeneral contact) {
     initContactModificationById(contact.getId());
     String name = wd.findElement(By.name("firstname")).getAttribute("value");
-    String lastname = wd.findElement(By.name("lasttname")).getAttribute("value");
+    String lastname = wd.findElement(By.name("lastname")).getAttribute("value");
     String home = wd.findElement(By.name("home")).getAttribute("value");
     String mobile = wd.findElement(By.name("mobile")).getAttribute("value");
     String work = wd.findElement(By.name("work")).getAttribute("value");
