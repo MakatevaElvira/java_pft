@@ -99,47 +99,52 @@ public class ContactHelper extends HelperBase {
     initContactCreation();
     fillContactForm (general, companyInfo, number, emails, birth, contactsGroup, secondary, creation);
     submintContactCreation();
+    contactCache = null;
     returnToContactPage();
   }
   public void create(ContactGeneral contact) {
     initContactCreation();
     fillGeneralContact (contact);
     submintContactCreation();
-    contactsCache = null;
+    contactCache = null;
     returnToContactPage();
   }
   public void modify(ContactGeneral contact) {
     initContactModificationById(contact.getId());
     fillGeneralContact(contact);
     submitContactModification();
-    contactsCache = null;
+    contactCache = null;
     returnToContactPage();
   }
   public void delete(ContactGeneral contact) {
     selectContactById(contact.getId());
     deleteSelectedContact();
-    contactsCache = null;
+    contactCache = null;
+  }
+  public int count() {
+    return wd.findElements(By.cssSelector("tr[name=\"entry\"]")).size();
   }
 
-  private Contacts contactsCache = null;
+  private Contacts contactCache = null;
 
   public Contacts all() {
-    if (contactsCache != null){
-      return new Contacts(contactsCache);
+    if (contactCache != null){
+      return new Contacts(contactCache);
     }
-    contactsCache = new Contacts();
+    contactCache = new Contacts();
     List<WebElement> elements = wd.findElements(By.cssSelector("tr[name=\"entry\"]"));
     for (WebElement element : elements){
       String name = element.findElement(By.xpath("./td[3]")).getText();
       String lastname = element.findElement(By.xpath("./td[2]")).getText();
       int id = Integer.parseInt(element.findElement(By.xpath("./td/input")).getAttribute("value"));
-      contactsCache.add(new ContactGeneral().withId(id).withName(name).withLastname(lastname));
+      contactCache.add(new ContactGeneral().withId(id).withName(name).withLastname(lastname));
     }
-    return new Contacts(contactsCache);
+    return new Contacts(contactCache);
   }
   public void fillGeneralContact(ContactGeneral groupGeneral) {
     type(By.name("firstname"),groupGeneral.getName());
     type(By.name("lastname"),groupGeneral.getLastname());
   }
+
 
 }

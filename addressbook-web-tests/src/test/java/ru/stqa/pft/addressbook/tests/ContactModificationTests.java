@@ -27,11 +27,11 @@ public class ContactModificationTests extends TestBase {
   public void testContactModification(){
     Contacts before = app.contact().all();
     ContactGeneral modifyContact =  before.iterator().next();
-    ContactGeneral contactG = new ContactGeneral().withId(modifyContact.getId()).withName("Elle").withLastname( "Mak");
-    app.contact().modify(contactG);
+    ContactGeneral contact = new ContactGeneral().withId(modifyContact.getId()).withName("Elle").withLastname( "Mak");
+    app.contact().modify(contact);
+    assertThat(app.contact().count(), equalTo( before.size()));
     Contacts after = app.contact().all();
-    assertEquals(after.size(), before.size() );
-    assertThat(after, equalTo(before.withOut(modifyContact).withAdded(contactG)));
+    assertThat(after, equalTo(before.withOut(modifyContact).withAdded(contact)));
 
     app.getSessionHelper().logout();
 
