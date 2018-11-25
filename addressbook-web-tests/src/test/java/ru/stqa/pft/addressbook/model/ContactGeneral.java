@@ -6,6 +6,9 @@ public class ContactGeneral {
   private int id = Integer.MAX_VALUE;
   private  String name;
   private  String lastname;
+  private  String homeNumber;
+  private  String mobileNumber;
+  private  String workNumber;
 
   public int getId() {
     return id;
@@ -25,6 +28,20 @@ public class ContactGeneral {
     this.lastname = lastname;
     return this;
   }
+  public ContactGeneral withHomeNumber(String homeNumber) {
+    this.homeNumber = homeNumber;
+    return this;
+  }
+
+  public ContactGeneral withMobileNumber(String mobileNumber) {
+    this.mobileNumber = mobileNumber;
+    return this;
+  }
+
+  public ContactGeneral withWorkNumber(String workNumber) {
+    this.workNumber = workNumber;
+    return this;
+  }
 
   public String getName() {
     return name;
@@ -32,6 +49,13 @@ public class ContactGeneral {
 
   public String getLastname() {
     return lastname;
+  }
+
+  public String getHomeNumber() { return homeNumber;  }
+
+  public String getMobileNumber() { return mobileNumber;  }
+
+  public String getWorkNumber() { return workNumber;
   }
 
   @Override

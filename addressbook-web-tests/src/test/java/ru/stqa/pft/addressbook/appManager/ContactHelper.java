@@ -9,15 +9,18 @@ import ru.stqa.pft.addressbook.model.*;
 
 import java.util.List;
 
+import static java.lang.String.format;
 import static org.testng.Assert.assertTrue;
 
 public class ContactHelper extends HelperBase {
   private boolean acceptNextAlert = true;
-
+  private Contacts contactCache = null;
   public ContactHelper(WebDriver wd) {
    super(wd);  }
+
   public void returnToContactPage() {  click(By.linkText("home page"));
   }
+
   public void submintContactCreation() {
     click(By.xpath("(//input[@name='submit'])[2]"));
   }
@@ -55,7 +58,6 @@ public class ContactHelper extends HelperBase {
     type(By.name("notes"),groupSecondary.getElses());
   }
 
-
   public void initContactCreation() {
     click(By.linkText("add new"));
   }
@@ -67,6 +69,17 @@ public class ContactHelper extends HelperBase {
   public void initContactModificationById(int id) {
     wd.findElement(By.cssSelector("a[href=\"edit.php?id=" + id + "\"]")).click();
   }
+
+  public void initContactModifyByIdLong(int id) {
+   WebElement checkbox = wd.findElement(By.cssSelector(String.format("input[id='%s']", id)));
+   WebElement row = checkbox.findElement(By.xpath("./../.."));
+   List <WebElement> cells = row.findElements(By.tagName("td"));
+   cells.get(7).findElement(By.tagName("a")).click();
+   //wd.findElement(By.xpath(String.format("//input[id='%s']/../../td[8]/a",id))).click();
+   //wd.findElement(By.xpath(String.format("//tr[.input[id='%s']]/td[8]/a",id))).click();
+   //wd.findElement(By.cssSelector(String.format("a[href='edit.php?id=%s']",id))).click();
+  }
+
   public void submitContactModification() {
     click(By.name("update"));
   }
@@ -76,6 +89,7 @@ public class ContactHelper extends HelperBase {
     assertTrue(closeAlertAndGetItsText().matches("^Delete 1 addresses[\\s\\S]$"));
     acceptNextAlert = true;
   }
+
   private String closeAlertAndGetItsText() {
     try {
       Alert alert = wd.switchTo().alert();
@@ -90,6 +104,7 @@ public class ContactHelper extends HelperBase {
       acceptNextAlert = true;
     }
   }
+
   public boolean isThereAContact() {
     return isElementPresent(By.name("selected[]"));
   }
@@ -103,6 +118,7 @@ public class ContactHelper extends HelperBase {
     contactCache = null;
     returnToContactPage();
   }
+
   public void create(ContactGeneral contact) {
     initContactCreation();
     fillGeneralContact (contact);
@@ -110,6 +126,7 @@ public class ContactHelper extends HelperBase {
     contactCache = null;
     returnToContactPage();
   }
+
   public void modify(ContactGeneral contact) {
     initContactModificationById(contact.getId());
     fillGeneralContact(contact);
@@ -117,16 +134,16 @@ public class ContactHelper extends HelperBase {
     contactCache = null;
     returnToContactPage();
   }
+
   public void delete(ContactGeneral contact) {
     selectContactById(contact.getId());
     deleteSelectedContact();
     contactCache = null;
   }
+
   public int count() {
     return wd.findElements(By.cssSelector("tr[name=\"entry\"]")).size();
   }
-
-  private Contacts contactCache = null;
 
   public Contacts all() {
     if (contactCache != null){
@@ -148,4 +165,17 @@ public class ContactHelper extends HelperBase {
   }
 
 
+  public ContactGeneral infoFromEditForm(ContactGeneral contact) {
+    initContactModificationById(contact.getId());
+    String name = wd.findElement(By.name("firstname")).getAttribute("value");
+    String lastname = wd.findElement(By.name("lasttname")).getAttribute("value");
+    String home = wd.findElement(By.name("home")).getAttribute("value");
+    String mobile = wd.findElement(By.name("mobile")).getAttribute("value");
+    String work = wd.findElement(By.name("work")).getAttribute("value");
+    wd.navigate().back();
+    return new ContactGeneral().withId(contact.getId()).withName(name)
+            .withLastname(lastname).withHomeNumber(home).withMobileNumber(mobile).withWorkNumber(work);
+
+
+  }
 }
