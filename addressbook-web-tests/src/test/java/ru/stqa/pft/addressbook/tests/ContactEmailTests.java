@@ -21,7 +21,7 @@ public class ContactEmailTests extends TestBase {
               .withEmail("myemail@bk.ru").withEmail2("youemail@gmail.ru").withEmail3("ouremail@yandex.ru"));
     }
   }
-  @Test
+  @Test(enabled = false)
   public void testContactEmail() throws Exception {
     app.goTo().contactPage();
     ContactGeneral contact = app.contact().all().iterator().next();

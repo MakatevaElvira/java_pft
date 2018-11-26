@@ -156,22 +156,23 @@ public class ContactHelper extends HelperBase {
       String lastname = element.findElement(By.xpath("./td[2]")).getText();
       String allPhones = element.findElement(By.xpath("./td[6]")).getText();
       String allEmails = element.findElement(By.xpath("./td[5]")).getText();
+      String address = element.findElement(By.xpath("./td[4]")).getText();
       int id = Integer.parseInt(element.findElement(By.xpath("./td/input")).getAttribute("value"));
       contactCache.add(new ContactGeneral().withId(id).withName(name).withLastname(lastname)
-              .withAllPhones(allPhones).withAllEmails(allEmails));
+              .withAllPhones(allPhones).withAllEmails(allEmails).withAdress(address));
     }
     return new Contacts(contactCache);
   }
   public void fillGeneralContact(ContactGeneral groupGeneral) {
     type(By.name("firstname"),groupGeneral.getName());
     type(By.name("lastname"),groupGeneral.getLastname());
+    type((By.name("address")),groupGeneral.getAddress());
     type((By.name("home")),groupGeneral.getHomeNumber());
     type((By.name("mobile")),groupGeneral.getMobileNumber());
     type((By.name("work")),groupGeneral.getWorkNumber());
     type((By.name("email")),groupGeneral.getEmail1());
     type((By.name("email2")),groupGeneral.getEmail2());
     type((By.name("email3")),groupGeneral.getEmail3());
-
   }
 
 
@@ -185,10 +186,11 @@ public class ContactHelper extends HelperBase {
     String email = wd.findElement(By.name("email")).getAttribute("value");
     String email2 = wd.findElement(By.name("email2")).getAttribute("value");
     String email3 = wd.findElement(By.name("email3")).getAttribute("value");
+    String address = wd.findElement(By.name("address")).getAttribute("value");
     wd.navigate().back();
     return new ContactGeneral().withId(contact.getId()).withName(name)
             .withLastname(lastname).withHomeNumber(home).withMobileNumber(mobile)
-            .withWorkNumber(work).withEmail(email).withEmail2(email2).withEmail3(email3);
+            .withWorkNumber(work).withEmail(email).withEmail2(email2).withEmail3(email3).withAdress(address);
 
 
   }

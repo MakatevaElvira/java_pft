@@ -4,24 +4,31 @@ import java.util.Objects;
 
 public class ContactGeneral {
   private int id = Integer.MAX_VALUE;
-  private  String name;
-  private  String lastname;
-  private  String homeNumber;
-  private  String mobileNumber;
-  private  String workNumber;
-  private String AllPhones;
-  private  String email1;
-  private  String email2;
-  private  String email3;
-  private String AllEmails;
+  private String name;
+  private String lastname;
+  private String homeNumber;
+  private String mobileNumber;
+  private String workNumber;
+  private String allPhones;
+  private String email1;
+  private String email2;
+  private String email3;
+  private String allEmails;
+  private String address;
 
 
-  public ContactGeneral withAllPhones(String allPhones) {
-    AllPhones = allPhones;
+  public ContactGeneral withAdress(String address) {
+    this.address = address;
     return this;
   }
+
+  public ContactGeneral withAllPhones(String allPhones) {
+    this.allPhones = allPhones;
+    return this;
+  }
+
   public ContactGeneral withAllEmails(String allEmails) {
-    AllEmails = allEmails;
+    this.allEmails = allEmails;
     return this;
   }
 
@@ -34,6 +41,7 @@ public class ContactGeneral {
     this.email2 = email2;
     return this;
   }
+
   public ContactGeneral withEmail(String email) {
     this.email1 = email;
     return this;
@@ -53,6 +61,7 @@ public class ContactGeneral {
     this.lastname = lastname;
     return this;
   }
+
   public ContactGeneral withHomeNumber(String homeNumber) {
     this.homeNumber = homeNumber;
     return this;
@@ -80,33 +89,55 @@ public class ContactGeneral {
     return lastname;
   }
 
-  public String getHomeNumber() { return homeNumber;  }
+  public String getHomeNumber() {
+    return homeNumber;
+  }
 
-  public String getMobileNumber() { return mobileNumber;  }
+  public String getMobileNumber() {
+    return mobileNumber;
+  }
 
-  public String getWorkNumber() { return workNumber;  }
+  public String getWorkNumber() {
+    return workNumber;
+  }
 
-  public String getEmail1() { return email1;  }
+  public String getEmail1() {
+    return email1;
+  }
 
-  public String getEmail2() { return email2;  }
+  public String getEmail2() {
+    return email2;
+  }
 
-  public String getEmail3() { return email3;  }
-  public String getAllPhones() { return AllPhones;  }
+  public String getEmail3() {
+    return email3;
+  }
 
-  public String getAllEmails() { return AllEmails;  }
+  public String getAllPhones() {
+    return allPhones;
+  }
+
+  public String getAllEmails() {
+    return allEmails;
+  }
+
+  public String getAddress() {
+    return address;
+  }
 
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
     ContactGeneral general = (ContactGeneral) o;
-    return Objects.equals(name, general.name) &&
+    return id == general.id &&
+            Objects.equals(name, general.name) &&
             Objects.equals(lastname, general.lastname);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(name, lastname);
+    return Objects.hash(id, name, lastname);
   }
 
   @Override
