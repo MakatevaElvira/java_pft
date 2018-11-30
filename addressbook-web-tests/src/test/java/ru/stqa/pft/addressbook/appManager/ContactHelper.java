@@ -166,6 +166,7 @@ public class ContactHelper extends HelperBase {
   public void fillGeneralContact(ContactGeneral groupGeneral) {
     type(By.name("firstname"),groupGeneral.getName());
     type(By.name("lastname"),groupGeneral.getLastname());
+    attach(By.name("photo"), groupGeneral.getPhoto());
     type((By.name("address")),groupGeneral.getAddress());
     type((By.name("home")),groupGeneral.getHomeNumber());
     type((By.name("mobile")),groupGeneral.getMobileNumber());

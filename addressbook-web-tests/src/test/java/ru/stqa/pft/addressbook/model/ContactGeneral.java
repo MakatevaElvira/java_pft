@@ -1,5 +1,6 @@
 package ru.stqa.pft.addressbook.model;
 
+import java.io.File;
 import java.util.Objects;
 
 public class ContactGeneral {
@@ -15,7 +16,13 @@ public class ContactGeneral {
   private String email3;
   private String allEmails;
   private String address;
+  private File photo;
 
+
+  public ContactGeneral withPhoto(File photo) {
+    this.photo = photo;
+    return this;
+  }
 
   public ContactGeneral withAdress(String address) {
     this.address = address;
@@ -75,6 +82,9 @@ public class ContactGeneral {
   public ContactGeneral withWorkNumber(String workNumber) {
     this.workNumber = workNumber;
     return this;
+  }
+  public File getPhoto() {
+    return photo;
   }
 
   public int getId() {
