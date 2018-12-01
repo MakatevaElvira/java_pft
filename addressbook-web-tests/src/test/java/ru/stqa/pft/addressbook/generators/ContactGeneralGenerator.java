@@ -33,8 +33,9 @@ public class ContactGeneralGenerator {
   private static List<ContactGeneral> generateContacts(int count) {
     List <ContactGeneral> contacts = new ArrayList<ContactGeneral>();
     for (int i=0; i< count;i++ ) {
-      contacts.add(new ContactGeneral().withName())
+      contacts.add(new ContactGeneral().withName(String.format("Name%s",i)));
     }
+    return contacts;
 
   }
 }
