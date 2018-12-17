@@ -3,7 +3,9 @@ package ru.stqa.pft.addressbook.generators;
 import com.beust.jcommander.JCommander;
 import com.beust.jcommander.Parameter;
 import com.beust.jcommander.ParameterException;
+import com.thoughtworks.xstream.XStream;
 import ru.stqa.pft.addressbook.model.ContactGeneral;
+import ru.stqa.pft.addressbook.model.GroupData;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -17,6 +19,8 @@ public class ContactGeneralGenerator {
   public int count;
   @Parameter(names = "-f", description = "Target file")
   public String file;
+  @Parameter (names = "-g", description = "Contact general format")
+  public  String format;
 
   public static void main(String[] args) throws IOException {
     ContactGeneralGenerator generator = new ContactGeneralGenerator();
@@ -32,10 +36,25 @@ public class ContactGeneralGenerator {
 
   private void run() throws IOException {
     List<ContactGeneral> contacts = generateContacts(count);
-    save(contacts, new File(file));
+    if (format.equals("csv")) {
+      saveAsCsv(contacts, new File(file));
+    } else if (format.equals("xml")){
+      saveAsXml(contacts, new File(file));
+    } else {
+      System.out.println("Unrecognized format" + format);
+    }
   }
 
-  private static void save(List<ContactGeneral> contacts, File file) throws IOException {
+  private void saveAsXml(List<ContactGeneral> contacts, File file) throws IOException {
+    XStream xstream = new XStream();
+    xstream.processAnnotations(ContactGeneral.class);
+    String xml = xstream.toXML(contacts);
+    Writer writer = new FileWriter(file);
+    writer.write(xml);
+    writer.close();
+  }
+
+  private static void saveAsCsv(List<ContactGeneral> contacts, File file) throws IOException {
     System.out.println(new File(".").getAbsolutePath());
     Writer writer = new FileWriter(file);
     for (ContactGeneral contact : contacts) {
@@ -50,7 +69,14 @@ public class ContactGeneralGenerator {
   private static List<ContactGeneral> generateContacts(int count) {
     List<ContactGeneral> contacts = new ArrayList<ContactGeneral>();
     for (int i = 0; i < count; i++) {
-      contacts.add(new ContactGeneral().withName(String.format("Name%s", i)));
+      contacts.add(new ContactGeneral().withName(String.format("Elvira%s", i))
+              .withLastname(String.format("Mak%s", i))
+              .withAdress((String.format("Saratov%s", i)))
+              .withHomeNumber((String.format("+7900300555%s", i)))
+              .withMobileNumber((String.format("+7900300566%s",i)))
+              .withWorkNumber((String.format("+7900300577%s",i)))
+              .withEmail(String.format("myemail%s@bk.ru",i))
+              .withEmail2(String.format("youemail%s@bk.ru",i)).withEmail3(String.format("vemail%s@bk.ru",i)));
     }
     return contacts;
 
