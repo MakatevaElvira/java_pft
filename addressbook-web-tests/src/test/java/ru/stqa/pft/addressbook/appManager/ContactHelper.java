@@ -30,7 +30,7 @@ public class ContactHelper extends HelperBase {
                               ContactEmails groupEmails, ContactBirth groupBirth, String contactsGroup,
                               ContactSecondary groupSecondary, boolean creation) {
     type(By.name("firstname"),groupGeneral.getName());
-    type(By.name("lastname"),groupGeneral.getLastname());
+    type(By.name("lastname"),groupGeneral.getLastName());
     type(By.name("company"),groupCompanyInfo.getCompany());
     type(By.name("address"),groupCompanyInfo.getAddressCompany());
     type(By.name("home"),groupNumber.getHomeNumber());
@@ -165,7 +165,7 @@ public class ContactHelper extends HelperBase {
   }
   public void fillGeneralContact(ContactGeneral groupGeneral) {
     type(By.name("firstname"),groupGeneral.getName());
-    type(By.name("lastname"),groupGeneral.getLastname());
+    type(By.name("lastname"),groupGeneral.getLastName());
     attach(By.name("photo"), groupGeneral.getPhoto());
     type((By.name("address")),groupGeneral.getAddress());
     type((By.name("home")),groupGeneral.getHomeNumber());

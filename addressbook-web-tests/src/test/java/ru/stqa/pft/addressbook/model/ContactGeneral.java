@@ -1,5 +1,6 @@
 package ru.stqa.pft.addressbook.model;
 
+import com.google.gson.annotations.Expose;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
@@ -10,17 +11,29 @@ import java.util.Objects;
 public class ContactGeneral {
   @XStreamOmitField
   private int id = Integer.MAX_VALUE;
+  @Expose
   private String name;
-  private String lastname;
+  @Expose
+  private String lastName;
+  @Expose
   private String homeNumber;
+  @Expose
   private String mobileNumber;
+  @Expose
   private String workNumber;
+  @Expose
   private String allPhones;
+  @Expose
   private String email1;
+  @Expose
   private String email2;
+  @Expose
   private String email3;
+  @Expose
   private String allEmails;
+  @Expose
   private String address;
+  @Expose
   private File photo;
 
 
@@ -70,7 +83,7 @@ public class ContactGeneral {
   }
 
   public ContactGeneral withLastname(String lastname) {
-    this.lastname = lastname;
+    this.lastName = lastname;
     return this;
   }
 
@@ -100,8 +113,8 @@ public class ContactGeneral {
     return name;
   }
 
-  public String getLastname() {
-    return lastname;
+  public String getLastName() {
+    return lastName;
   }
 
   public String getHomeNumber() {
@@ -147,12 +160,12 @@ public class ContactGeneral {
     ContactGeneral general = (ContactGeneral) o;
     return id == general.id &&
             Objects.equals(name, general.name) &&
-            Objects.equals(lastname, general.lastname);
+            Objects.equals(lastName, general.lastName);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, name, lastname);
+    return Objects.hash(id, name, lastName);
   }
 
   @Override
@@ -160,7 +173,7 @@ public class ContactGeneral {
     return "ContactGeneral{" +
             "id='" + id + '\'' +
             ", name='" + name + '\'' +
-            ", lastname='" + lastname + '\'' +
+            ", lastName='" + lastName + '\'' +
             '}';
   }
 
