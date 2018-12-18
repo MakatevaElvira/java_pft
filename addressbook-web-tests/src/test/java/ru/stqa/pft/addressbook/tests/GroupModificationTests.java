@@ -34,8 +34,6 @@ public class GroupModificationTests extends TestBase {
     assertThat(app.group().count(),equalTo(before.size()));
     Groups after = app.group().all();
     assertThat(after, equalTo(before.withOut(modifyGroup).withAdded(group)));
-
-    app.getSessionHelper().logout();
   }
 
 
