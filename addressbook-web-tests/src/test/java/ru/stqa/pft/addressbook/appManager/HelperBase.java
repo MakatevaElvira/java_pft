@@ -27,17 +27,13 @@ public class HelperBase {
         wd.findElement(locator).clear();
         wd.findElement(locator).sendKeys(text);
       }
-
     }
-
   }
   public void attach (By locator, File file) {
     if (file != null) {
         wd.findElement(locator).sendKeys(file.getAbsolutePath());
       }
-
     }
-
   public boolean isElementPresent(By by) {
     try {
       wd.findElement(by);
@@ -46,7 +42,6 @@ public class HelperBase {
       return false;
     }
   }
-
   public boolean isAlertPresent() {
     try {
       wd.switchTo().alert();
@@ -55,7 +50,6 @@ public class HelperBase {
       return false;
     }
   }
-
   public void select(By locator, String name, By xpath) {
     new Select(wd.findElement(locator)).selectByVisibleText(name);
     click(xpath);
