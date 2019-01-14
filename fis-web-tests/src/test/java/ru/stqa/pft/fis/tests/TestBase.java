@@ -13,7 +13,7 @@ import ru.stqa.pft.fis.appManager.ApplicationManager;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 
-public class TestBase {
+public class  TestBase {
   Logger logger = LoggerFactory.getLogger(TestBase.class);
 
   protected static final ApplicationManager app

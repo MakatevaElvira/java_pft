@@ -51,6 +51,11 @@ public class ContactCreationTests extends TestBase {
       return  contacts.stream().map((g) -> new Object[] {g}).collect(Collectors.toList()).iterator();
     }
   }
+  @Test ()
+  public void testFis() throws Exception {
+    app.goTo().generalPage();
+
+  }
   @Test (dataProvider = "validContactsAsJson")
   public void testContactCreation(ContactGeneral contact) throws Exception {
     app.goTo().contactPage();

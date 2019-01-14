@@ -26,4 +26,7 @@ public class NavigationHelper extends HelperBase {
     }
     click(By.linkText("home"));
   }
+  public void generalPage(){
+    click(By.cssSelector("span.ui-button-text.ui-button-in-line"));
+  }
 }
