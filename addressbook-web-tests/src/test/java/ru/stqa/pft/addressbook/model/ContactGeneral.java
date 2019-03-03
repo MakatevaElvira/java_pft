@@ -3,42 +3,67 @@ package ru.stqa.pft.addressbook.model;
 import com.google.gson.annotations.Expose;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
+import org.hibernate.annotations.Type;
 
+import javax.persistence.*;
 import java.io.File;
 import java.util.Objects;
 
 @XStreamAlias("contact")
+@Entity
+@Table(name = "addressbook")
 public class ContactGeneral {
   @XStreamOmitField
+  @Id
+
   private int id = Integer.MAX_VALUE;
   @Expose
+  @Column(name ="firstname")
   private String name;
   @Expose
   private String lastName;
   @Expose
+  @Column(name ="home")
+  @Type(type = "text")
   private String homeNumber;
   @Expose
+  @Column(name ="mobile")
+  @Type(type = "text")
   private String mobileNumber;
   @Expose
+  @Column(name ="work")
+  @Type(type = "text")
   private String workNumber;
   @Expose
+  @Transient
   private String allPhones;
   @Expose
+  @Transient // пропустить, не извлекать из базы
+  private String group; // или в начале строки- transient
+  @Expose
+  @Column(name ="email")
+  @Type(type = "text")
   private String email1;
   @Expose
+  @Type(type = "text")
   private String email2;
   @Expose
+  @Type(type = "text")
   private String email3;
   @Expose
+  @Transient
   private String allEmails;
   @Expose
+  @Type(type = "text")
   private String address;
   @Expose
-  private File photo;
+  @Column(name ="photo")
+  @Type(type = "text")
+  private String photo;
 
 
   public ContactGeneral withPhoto(File photo) {
-    this.photo = photo;
+    this.photo = photo.getPath();
     return this;
   }
 
@@ -102,7 +127,7 @@ public class ContactGeneral {
     return this;
   }
   public File getPhoto() {
-    return photo;
+    return new File(photo);
   }
 
   public int getId() {
