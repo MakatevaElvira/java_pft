@@ -53,10 +53,11 @@ public class ContactCreationTests extends TestBase {
   @Test (dataProvider = "validContactsAsJson")
   public void testContactCreation(ContactGeneral contact) throws Exception {
     app.goTo().contactPage();
-    Contacts before = app.contact().all();
-    app.contact().create(contact);
+    Contacts before = app.db().contacts();
+    File photo = new File("src/test/resources/stru.png");
+    app.contact().create(contact.withPhoto(photo));
     assertThat(app.contact().count(), equalTo( before.size() + 1));
-    Contacts after =  app.contact().all();
+    Contacts after =  app.db().contacts();
     assertThat(after, equalTo(
             before.withAdded(contact.withId(after.stream().mapToInt((g) -> g.getId()).max().getAsInt()))));
 
@@ -65,7 +66,7 @@ public class ContactCreationTests extends TestBase {
   @Test (enabled = false)
   public void testContactCreationOld() throws Exception {
     app.goTo().contactPage();
-    Contacts before = app.contact().all();
+    Contacts before = app.db().contacts();
     File photo = new File("src/test/resources/stru.png");
     ContactGeneral contact = new ContactGeneral().withName("Efilia").withLastname("Liopda").withLastname("Makateva")
             .withAdress("410003, г.Саратов ул.Кирова д.1")
