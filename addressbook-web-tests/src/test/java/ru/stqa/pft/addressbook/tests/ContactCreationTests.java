@@ -68,8 +68,8 @@ public class ContactCreationTests extends TestBase {
     app.goTo().contactPage();
     Contacts before = app.db().contacts();
     File photo = new File("src/test/resources/stru.png");
-    ContactGeneral contact = new ContactGeneral().withName("Efilia").withLastname("Liopda").withLastname("Makateva")
-            .withAdress("410003, г.Саратов ул.Кирова д.1")
+    ContactGeneral contact = new ContactGeneral().withName("Efilia").withLastName("Liopda").withLastName("Makateva")
+            .withAddress("410003, г.Саратов ул.Кирова д.1")
             .withEmail("myemail@bk.ru").withEmail2("youemail@gmail.ru").withEmail3("ouremail@yandex.ru")
             .withHomeNumber("777").withMobileNumber("111-7").withWorkNumber("25 12 2").withPhoto(photo);
     app.contact().create(contact);

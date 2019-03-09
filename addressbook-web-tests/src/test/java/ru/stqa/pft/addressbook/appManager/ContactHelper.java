@@ -21,7 +21,7 @@ public class ContactHelper extends HelperBase {
   public void returnToContactPage() {  click(By.linkText("home page"));
   }
 
-  public void submintContactCreation() {
+  public void submitContactCreation() {
     click(By.xpath("(//input[@name='submit'])[2]"));
   }
 
@@ -114,7 +114,7 @@ public class ContactHelper extends HelperBase {
                      String contactsGroup, ContactSecondary secondary, boolean creation) {
     initContactCreation();
     fillContactForm (general, companyInfo, number, emails, birth, contactsGroup, secondary, creation);
-    submintContactCreation();
+    submitContactCreation();
     contactCache = null;
     returnToContactPage();
   }
@@ -122,7 +122,7 @@ public class ContactHelper extends HelperBase {
   public void create(ContactGeneral contact) {
     initContactCreation();
     fillGeneralContact (contact);
-    submintContactCreation();
+    submitContactCreation();
     contactCache = null;
     returnToContactPage();
   }
@@ -153,13 +153,13 @@ public class ContactHelper extends HelperBase {
     List<WebElement> elements = wd.findElements(By.cssSelector("tr[name=\"entry\"]"));
     for (WebElement element : elements){
       String name = element.findElement(By.xpath("./td[3]")).getText();
-      String lastname = element.findElement(By.xpath("./td[2]")).getText();
+      String lastName = element.findElement(By.xpath("./td[2]")).getText();
       String allPhones = element.findElement(By.xpath("./td[6]")).getText();
       String allEmails = element.findElement(By.xpath("./td[5]")).getText();
       String address = element.findElement(By.xpath("./td[4]")).getText();
       int id = Integer.parseInt(element.findElement(By.xpath("./td/input")).getAttribute("value"));
-      contactCache.add(new ContactGeneral().withId(id).withName(name).withLastname(lastname)
-              .withAllPhones(allPhones).withAllEmails(allEmails).withAdress(address));
+      contactCache.add(new ContactGeneral().withId(id).withName(name).withLastName(lastName)
+              .withAllPhones(allPhones).withAllEmails(allEmails).withAddress(address));
     }
     return new Contacts(contactCache);
   }
@@ -190,8 +190,8 @@ public class ContactHelper extends HelperBase {
     String address = wd.findElement(By.name("address")).getAttribute("value");
     wd.navigate().back();
     return new ContactGeneral().withId(contact.getId()).withName(name)
-            .withLastname(lastname).withHomeNumber(home).withMobileNumber(mobile)
-            .withWorkNumber(work).withEmail(email).withEmail2(email2).withEmail3(email3).withAdress(address);
+            .withLastName(lastname).withHomeNumber(home).withMobileNumber(mobile)
+            .withWorkNumber(work).withEmail(email).withEmail2(email2).withEmail3(email3).withAddress(address);
 
 
   }

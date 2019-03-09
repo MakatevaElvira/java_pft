@@ -15,12 +15,12 @@ import java.util.Objects;
 public class ContactGeneral {
   @XStreamOmitField
   @Id
-
   private int id = Integer.MAX_VALUE;
   @Expose
   @Column(name ="firstname")
   private String name;
   @Expose
+  @Column(name = "lastname")
   private String lastName;
   @Expose
   @Column(name ="home")
@@ -45,15 +45,18 @@ public class ContactGeneral {
   @Type(type = "text")
   private String email1;
   @Expose
+  @Column(name = "email2")
   @Type(type = "text")
   private String email2;
   @Expose
+  @Column(name = "email3")
   @Type(type = "text")
   private String email3;
   @Expose
   @Transient
   private String allEmails;
   @Expose
+  @Column(name = "address")
   @Type(type = "text")
   private String address;
   @Expose
@@ -67,7 +70,7 @@ public class ContactGeneral {
     return this;
   }
 
-  public ContactGeneral withAdress(String address) {
+  public ContactGeneral withAddress(String address) {
     this.address = address;
     return this;
   }
@@ -107,7 +110,7 @@ public class ContactGeneral {
     return this;
   }
 
-  public ContactGeneral withLastname(String lastname) {
+  public ContactGeneral withLastName(String lastname) {
     this.lastName = lastname;
     return this;
   }
@@ -126,9 +129,7 @@ public class ContactGeneral {
     this.workNumber = workNumber;
     return this;
   }
-  public File getPhoto() {
-    return new File(photo);
-  }
+  public File getPhoto() {   return new File(photo);  }
 
   public int getId() {
     return id;
@@ -179,21 +180,6 @@ public class ContactGeneral {
   }
 
   @Override
-  public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
-    ContactGeneral general = (ContactGeneral) o;
-    return id == general.id &&
-            Objects.equals(name, general.name) &&
-            Objects.equals(lastName, general.lastName);
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hash(id, name, lastName);
-  }
-
-  @Override
   public String toString() {
     return "ContactGeneral{" +
             "id='" + id + '\'' +
@@ -202,4 +188,20 @@ public class ContactGeneral {
             '}';
   }
 
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    ContactGeneral general = (ContactGeneral) o;
+    return id == general.id &&
+            Objects.equals(name, general.name) &&
+            Objects.equals(lastName, general.lastName) &&
+            Objects.equals(mobileNumber, general.mobileNumber) &&
+            Objects.equals(address, general.address);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(id, name, lastName, mobileNumber, address);
+  }
 }

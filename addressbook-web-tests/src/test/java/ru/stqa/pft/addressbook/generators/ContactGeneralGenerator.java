@@ -80,8 +80,8 @@ public class ContactGeneralGenerator {
     List<ContactGeneral> contacts = new ArrayList<ContactGeneral>();
     for (int i = 0; i < count; i++) {
       contacts.add(new ContactGeneral().withName(String.format("Elvira%s", i))
-              .withLastname(String.format("Mak%s", i))
-              .withAdress((String.format("Saratov%s", i)))
+              .withLastName(String.format("Mak%s", i))
+              .withAddress((String.format("Saratov%s", i)))
               .withHomeNumber((String.format("+7900300555%s", i)))
               .withMobileNumber((String.format("+7900300566%s",i)))
               .withWorkNumber((String.format("+7900300577%s",i)))
