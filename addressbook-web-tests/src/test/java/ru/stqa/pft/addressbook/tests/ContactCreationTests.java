@@ -33,7 +33,7 @@ public class ContactCreationTests extends TestBase {
       XStream xstream = new XStream();
       xstream.processAnnotations(ContactGeneral.class);
       List<ContactGeneral> contacts = (List<ContactGeneral>) xstream.fromXML(xml);
-      return  contacts.stream().map((g) -> new Object[] {g}).collect(Collectors.toList()).iterator();
+      return  contacts.stream().map((c) -> new Object[] {c}).collect(Collectors.toList()).iterator();
     }
   }
   @DataProvider
@@ -47,7 +47,7 @@ public class ContactCreationTests extends TestBase {
       }
       Gson gson = new Gson();
       List<ContactGeneral> contacts = gson.fromJson(json,new TypeToken<List<ContactGeneral>>(){}.getType()); //List<ContactGeneral>.class);
-      return  contacts.stream().map((g) -> new Object[] {g}).collect(Collectors.toList()).iterator();
+      return  contacts.stream().map((c) -> new Object[] {c}).collect(Collectors.toList()).iterator();
     }
   }
   @Test (dataProvider = "validContactsAsJson")
@@ -59,7 +59,8 @@ public class ContactCreationTests extends TestBase {
     assertThat(app.contact().count(), equalTo( before.size() + 1));
     Contacts after =  app.db().contacts();
     assertThat(after, equalTo(
-            before.withAdded(contact.withId(after.stream().mapToInt((g) -> g.getId()).max().getAsInt()))));
+            before.withAdded(contact.withId(after.stream().mapToInt((c) -> c.getId()).max().getAsInt()))));
+    verifyContactListInUI(); // сравнение значений из базы и с интерфейса
 
   }
 
@@ -76,7 +77,7 @@ public class ContactCreationTests extends TestBase {
     assertThat(app.contact().count(), equalTo( before.size() + 1));
     Contacts after =  app.contact().all();
     assertThat(after, equalTo(
-            before.withAdded(contact.withId(after.stream().mapToInt((g) -> g.getId()).max().getAsInt()))));
+            before.withAdded(contact.withId(after.stream().mapToInt((c) -> c.getId()).max().getAsInt()))));
 
   }
 
