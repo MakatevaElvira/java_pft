@@ -7,7 +7,9 @@ import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.io.File;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @XStreamAlias("contact")
 @Entity
@@ -17,31 +19,31 @@ public class ContactGeneral {
   @Id
   private int id = Integer.MAX_VALUE;
   @Expose
-  @Column(name ="firstname")
+  @Column(name = "firstname")
   private String name;
   @Expose
   @Column(name = "lastname")
   private String lastName;
   @Expose
-  @Column(name ="home")
+  @Column(name = "home")
   @Type(type = "text")
   private String homeNumber;
   @Expose
-  @Column(name ="mobile")
+  @Column(name = "mobile")
   @Type(type = "text")
   private String mobileNumber;
   @Expose
-  @Column(name ="work")
+  @Column(name = "work")
   @Type(type = "text")
   private String workNumber;
   @Expose
   @Transient
   private String allPhones;
+  //@Expose
+  // @Transient // пропустить, не извлекать из базы
+  // private String group; // или в начале строки- transient
   @Expose
-  @Transient // пропустить, не извлекать из базы
-  private String group; // или в начале строки- transient
-  @Expose
-  @Column(name ="email")
+  @Column(name = "email")
   @Type(type = "text")
   private String email1;
   @Expose
@@ -60,10 +62,18 @@ public class ContactGeneral {
   @Type(type = "text")
   private String address;
   @Expose
-  @Column(name ="photo")
+  @Column(name = "photo")
   @Type(type = "text")
   private String photo;
+  @ManyToMany(fetch = FetchType.EAGER)
+  @JoinTable (name = "address_in_groups", joinColumns = @JoinColumn (name = "id"),
+          inverseJoinColumns =@JoinColumn(name = "group_id") ) //таблица связей Контакта с Группой, текущий столбец Контакты, обратный столбец Групп
 
+  private Set<GroupData> groups= new HashSet<GroupData>();
+
+  public Groups getGroups() {
+    return new Groups(groups);
+  }
 
   public ContactGeneral withPhoto(File photo) {
     this.photo = photo.getPath();
@@ -129,7 +139,10 @@ public class ContactGeneral {
     this.workNumber = workNumber;
     return this;
   }
-  public File getPhoto() {   return new File(photo);  }
+
+  public File getPhoto() {
+    return new File(photo);
+  }
 
   public int getId() {
     return id;
@@ -203,5 +216,10 @@ public class ContactGeneral {
   @Override
   public int hashCode() {
     return Objects.hash(id, name, lastName, mobileNumber, address);
+  }
+
+  public ContactGeneral inGroup(GroupData group) {
+    groups.add(group);
+    return this;
   }
 }

@@ -7,6 +7,7 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import ru.stqa.pft.addressbook.model.ContactGeneral;
 import ru.stqa.pft.addressbook.model.Contacts;
+import ru.stqa.pft.addressbook.model.Groups;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -52,6 +53,7 @@ public class ContactCreationTests extends TestBase {
   }
   @Test (dataProvider = "validContactsAsJson")
   public void testContactCreation(ContactGeneral contact) throws Exception {
+    Groups groups = app.db().groups();
     app.goTo().contactPage();
     Contacts before = app.db().contacts();
     File photo = new File("src/test/resources/stru.png");
@@ -67,12 +69,14 @@ public class ContactCreationTests extends TestBase {
   @Test (enabled = false)
   public void testContactCreationOld() throws Exception {
     app.goTo().contactPage();
+    Groups groups = app.db().groups();
     Contacts before = app.db().contacts();
     File photo = new File("src/test/resources/stru.png");
     ContactGeneral contact = new ContactGeneral().withName("Efilia").withLastName("Liopda").withLastName("Makateva")
             .withAddress("410003, г.Саратов ул.Кирова д.1")
             .withEmail("myemail@bk.ru").withEmail2("youemail@gmail.ru").withEmail3("ouremail@yandex.ru")
-            .withHomeNumber("777").withMobileNumber("111-7").withWorkNumber("25 12 2").withPhoto(photo);
+            .withHomeNumber("777").withMobileNumber("111-7").withWorkNumber("25 12 2").withPhoto(photo)
+            .inGroup(groups.iterator().next());
     app.contact().create(contact);
     assertThat(app.contact().count(), equalTo( before.size() + 1));
     Contacts after =  app.contact().all();
