@@ -16,7 +16,7 @@ public class ContactEmailTests extends TestBase {
     app.goTo().contactPage();
     if (app.db().contacts().size() == 0) {
       app.contact().create(new ContactGeneral().withName("Elvira").withLastName("Makateva")
-              .withEmail("myemail@bk.ru").withEmail2("youemail@gmail.ru").withEmail3("ouremail@yandex.ru"));
+              .withEmail("myemail@bk.ru").withEmail2("youemail@gmail.ru").withEmail3("ouremail@yandex.ru"),false);
     }
   }
   @Test(enabled = false)

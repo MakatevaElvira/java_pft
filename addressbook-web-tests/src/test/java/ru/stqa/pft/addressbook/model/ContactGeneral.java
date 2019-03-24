@@ -73,6 +73,7 @@ public class ContactGeneral {
 
   public Groups getGroups() {
     return new Groups(groups);
+
   }
 
   public ContactGeneral withPhoto(File photo) {

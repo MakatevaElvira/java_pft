@@ -4,12 +4,13 @@ import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import ru.stqa.pft.addressbook.model.*;
 
 import java.util.List;
 
-import static java.lang.String.format;
+import static java.lang.String.valueOf;
 import static org.testng.Assert.assertTrue;
 
 public class ContactHelper extends HelperBase {
@@ -46,12 +47,13 @@ public class ContactHelper extends HelperBase {
     type(By.name("byear"),groupBirth.getByear());
 
     if (creation)  {
-      if (isElementPresent(By.xpath("(//option[@value='36'])")) ){
-        click(By.name("new_group"));
-        select(By.name("new_group"), contactsGroup, By.xpath("(//option[@value='36'])"));
-      } return;
-
-    } else Assert.assertFalse((isElementPresent(By.name("new_group"))));
+      if (groupGeneral.getGroups().size()>0) {
+        Assert.assertTrue(groupGeneral.getGroups().size()==1);
+        new Select(wd.findElement(By.name("new_group"))).selectByVisibleText(groupGeneral.getGroups().iterator().next().getName());
+      }
+    } else {
+      Assert.assertFalse((isElementPresent(By.name("new_group"))));
+    }
 
     type(By.name("address2"),groupSecondary.getAddress2());
     type(By.name("phone2"),groupSecondary.getAddressHome());
@@ -63,7 +65,9 @@ public class ContactHelper extends HelperBase {
   }
 
   public void selectContactById(int id) {
-    wd.findElement(By.cssSelector("input[value='" + id +"']")).click();
+    wd.findElement(By.cssSelector("input[value='" + id + "']")).click();
+    //wd.findElement((By.id(id).click();
+
   }
 
   public void initContactModificationById(int id) {
@@ -119,20 +123,89 @@ public class ContactHelper extends HelperBase {
     returnToContactPage();
   }
 
-  public void create(ContactGeneral contact) {
+  public void create(ContactGeneral contact, boolean creation) {
     initContactCreation();
-    fillGeneralContact (contact);
+    fillGeneralContact (contact, creation);
     submitContactCreation();
     contactCache = null;
     returnToContactPage();
   }
 
-  public void modify(ContactGeneral contact) {
+  public void modify(ContactGeneral contact, boolean creation) {
     initContactModificationById(contact.getId());
-    fillGeneralContact(contact);
+    fillGeneralContact(contact, creation);
     submitContactModification();
     contactCache = null;
     returnToContactPage();
+  }
+  public void addToGroup(ContactGeneral contact, boolean creation, GroupData group) {
+    selectContactById(contact.getId());
+    selectAddingGroupByID1(contact,group);
+
+    submitAddingGroup();
+    //returnToContactsGroupPage(contact.getGroups().iterator().next().getId());
+    returnToContactsGroupPage(group.getName());
+
+  }
+  public void removeFromGroup(ContactGeneral contact, boolean creation, GroupData group) {
+    selectGroupByID(group);
+    selectContactById(contact.getId());
+
+    submitRemovingGroup();
+    //returnToContactsGroupPage(contact.getGroups().iterator().next().getId());
+    returnToContactsGroupPage(group.getName());
+
+  }
+
+  public void returnToContactsGroupPage1(int id) {
+    wd.findElement(By.cssSelector("a[href=\"./?group=" + id + "\"]")).click();
+  }
+  public void returnToContactsGroupPage(String name) {
+   // wd.findElement(By.cssSelector("a[href=\"./?group=" + id + "\"]")).click();
+    wd.findElements(By.linkText("group page \"" + name + "\""));
+  }
+
+  public void selectAddingGroupByID(ContactGeneral contact) {
+    if (contact.getGroups().size()>0) {
+      Assert.assertTrue(contact.getGroups().size()==1);
+      new Select(wd.findElement(By.name("to_group"))).selectByValue(valueOf(contact.getGroups().iterator().next().getId()));
+
+    }
+
+  }
+  public void selectGroupByID(GroupData group) {
+   // if (group.getContacts().size()>0) {
+   //   Assert.assertTrue(group.getContacts().size()==1);
+     // new Select(wd.findElement(By.name("group"))).selectByValue(valueOf(group.getId()));
+       //new Select(wd.findElement(By.name("group"))).selectByValue(valueOf(contact.getGroups().iterator().next().getId()));
+    new Select(wd.findElement(By.name("group"))).selectByValue(valueOf(group.getId()));
+
+
+  }
+
+  public void selectAddingGroupByID1(ContactGeneral contact, GroupData group) {
+    if (contact.getGroups().size()>0) {
+      Assert.assertTrue(contact.getGroups().size()==1);
+      new Select(wd.findElement(By.name("to_group"))).selectByValue(valueOf(group.getId()));
+    }
+  }
+  public void selectAddingGroupByName(ContactGeneral contact) {
+    if (contact.getGroups().size()>0) {
+      Assert.assertTrue(contact.getGroups().size()==1);
+      new  Select(wd.findElement(By.name("to_group"))).selectByVisibleText(contact.getGroups().iterator().next().getName());
+    }
+  }
+  //public void selestG (GroupData group, ContactGeneral contact){
+   // if (GroupData group == Arrays.asList(groups.iterator().next().getId().contains(contact.getGroups().iterator().next().getId());{
+ //       )
+ // }
+
+
+  public void submitAddingGroup() {
+    click(By.name("add"));
+  }
+  public void submitRemovingGroup() {
+    click(By.name("remove"));
   }
 
   public void delete(ContactGeneral contact) {
@@ -163,7 +236,7 @@ public class ContactHelper extends HelperBase {
     }
     return new Contacts(contactCache);
   }
-  public void fillGeneralContact(ContactGeneral groupGeneral) {
+  public void fillGeneralContact(ContactGeneral groupGeneral, boolean creation) {
     type(By.name("firstname"),groupGeneral.getName());
     type(By.name("lastname"),groupGeneral.getLastName());
     attach(By.name("photo"), groupGeneral.getPhoto());
@@ -174,6 +247,15 @@ public class ContactHelper extends HelperBase {
     type((By.name("email")),groupGeneral.getEmail1());
     type((By.name("email2")),groupGeneral.getEmail2());
     type((By.name("email3")),groupGeneral.getEmail3());
+    if (creation)  {
+      if (groupGeneral.getGroups().size()>0) {
+        Assert.assertTrue(groupGeneral.getGroups().size()==1);
+        new Select(wd.findElement(By.name("new_group"))).selectByVisibleText(groupGeneral.getGroups().iterator().next().getName());
+      }
+    } else {
+      Assert.assertFalse((isElementPresent(By.name("new_group"))));
+    }
+
   }
 
 

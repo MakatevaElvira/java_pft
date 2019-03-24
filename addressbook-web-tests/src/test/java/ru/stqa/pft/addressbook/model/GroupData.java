@@ -29,9 +29,9 @@ public class GroupData {
   @Column(name = "group_footer")
   @Type(type = "text")
   private  String footer;
-  @ManyToMany(mappedBy = "groups")  //таблица связей Группы с Контактом, текущий столбец Граппа, обратный столбец Контакт ОПИСАНА в Группах
-  //@JoinTable(name = "address_in_groups", joinColumns = @JoinColumn (name = "group_id"),
-          //inverseJoinColumns =@JoinColumn(name = "id") )
+  @ManyToMany(fetch = FetchType.EAGER)// mappedBy = "groups")-смотреть как у групп  //таблица связей Группы с Контактом, текущий столбец Граппа, обратный столбец Контакт ОПИСАНА в Группах
+  @JoinTable(name = "address_in_groups", joinColumns = @JoinColumn (name = "group_id"),
+          inverseJoinColumns =@JoinColumn(name = "id") )
   private Set <ContactGeneral> contacts = new HashSet<ContactGeneral>();
 
   public Contacts getContacts() {
