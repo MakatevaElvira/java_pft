@@ -147,7 +147,6 @@ public class ContactHelper extends HelperBase {
 
     submitAddingGroup();
     //returnToContactsGroupPage(contact.getGroups().iterator().next().getId());
-    waiter();
     returnToContactsGroupPage(group.getName());
 
   }
