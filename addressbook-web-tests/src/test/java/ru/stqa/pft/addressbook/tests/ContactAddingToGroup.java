@@ -56,7 +56,6 @@ public class ContactAddingToGroup extends TestBase {
     Groups groups = app.db().groups();  // проработать список!!!!!
     Contacts before = app.db().contacts();  // проработать список!!!!
 
-
     ContactGeneral modifyContact = before.iterator().next();
     ContactGeneral contact = new ContactGeneral().withId(modifyContact.getId());
     //.inGroup(modifyContact.getGroups().iterator().next().getId());//.inGroup(modifyContact.getGroups());

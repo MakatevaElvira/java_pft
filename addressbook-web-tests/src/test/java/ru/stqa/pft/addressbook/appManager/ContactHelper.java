@@ -4,7 +4,10 @@ import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.Wait;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import ru.stqa.pft.addressbook.model.*;
 
@@ -144,6 +147,7 @@ public class ContactHelper extends HelperBase {
 
     submitAddingGroup();
     //returnToContactsGroupPage(contact.getGroups().iterator().next().getId());
+    waiter();
     returnToContactsGroupPage(group.getName());
 
   }
@@ -151,11 +155,11 @@ public class ContactHelper extends HelperBase {
     selectGroupByID(group);
     selectContactById(contact.getId());
 
-    submitRemovingGroup();
+    waitSubmitRemovingGroup();
     //returnToContactsGroupPage(contact.getGroups().iterator().next().getId());
     returnToContactsGroupPage(group.getName());
-
   }
+
 
   public void returnToContactsGroupPage1(int id) {
     wd.findElement(By.cssSelector("a[href=\"./?group=" + id + "\"]")).click();
@@ -207,6 +211,16 @@ public class ContactHelper extends HelperBase {
   public void submitRemovingGroup() {
     click(By.name("remove"));
   }
+  public void waiter(){
+    Wait<WebDriver> wait = new WebDriverWait(wd, 5, 1000);
+    wait.until(ExpectedConditions.visibilityOf(wd.findElement(By.name("remove"))));
+    wait.until(ExpectedConditions.elementToBeClickable(wd.findElement(By.name("remove")))).click();
+  }
+  public void waitSubmitRemovingGroup(){
+    Wait<WebDriver> wait = new WebDriverWait(wd, 5, 5000);
+    wait.until(ExpectedConditions.elementToBeClickable(wd.findElement(By.name("remove")))).click();
+  }
+
 
   public void delete(ContactGeneral contact) {
     selectContactById(contact.getId());
