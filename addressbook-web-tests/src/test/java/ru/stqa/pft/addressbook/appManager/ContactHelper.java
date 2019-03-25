@@ -72,6 +72,10 @@ public class ContactHelper extends HelperBase {
     //wd.findElement((By.id(id).click();
 
   }
+  public void waitSelectContactById(int id){
+    Wait<WebDriver> wait = new WebDriverWait(wd, 5, 5000);
+    wait.until(ExpectedConditions.elementToBeClickable(wd.findElement(By.cssSelector("input[value='" + id + "']")))).click();
+  }
 
   public void initContactModificationById(int id) {
     wd.findElement(By.cssSelector("a[href=\"edit.php?id=" + id + "\"]")).click();
@@ -142,7 +146,7 @@ public class ContactHelper extends HelperBase {
     returnToContactPage();
   }
   public void addToGroup(ContactGeneral contact, boolean creation, GroupData group) {
-    selectContactById(contact.getId());
+    waitSelectContactById(contact.getId());
     selectAddingGroupByID1(contact,group);
 
     submitAddingGroup();
@@ -290,4 +294,5 @@ public class ContactHelper extends HelperBase {
 
 
   }
+
 }
