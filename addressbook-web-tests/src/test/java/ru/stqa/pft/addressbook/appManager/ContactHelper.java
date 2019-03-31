@@ -74,7 +74,7 @@ public class ContactHelper extends HelperBase {
   }
   public void waitSelectContactById(int id){
     Wait<WebDriver> wait = new WebDriverWait(wd, 5, 5000);
-    wait.until(ExpectedConditions.elementToBeClickable(wd.findElement(By.cssSelector("input[value='" + id + "']")))).click();
+    wait.until(ExpectedConditions.visibilityOf(wd.findElement(By.cssSelector("input[value='" + id + "']")))).click();
   }
 
   public void initContactModificationById(int id) {
@@ -146,6 +146,7 @@ public class ContactHelper extends HelperBase {
     returnToContactPage();
   }
   public void addToGroup(ContactGeneral contact, boolean creation, GroupData group) {
+    selectVisibleAllGroups(); //
     waitSelectContactById(contact.getId());
     selectAddingGroupByID1(contact,group);
 
@@ -155,12 +156,13 @@ public class ContactHelper extends HelperBase {
 
   }
   public void removeFromGroup(ContactGeneral contact, boolean creation, GroupData group) {
-    selectGroupByID(group);
-    selectContactById(contact.getId());
+    waitSelectGroupByID1(group);
+    waitSelectContactById(contact.getId());
 
     waitSubmitRemovingGroup();
     //returnToContactsGroupPage(contact.getGroups().iterator().next().getId());
     returnToContactsGroupPage(group.getName());
+
   }
 
 
@@ -169,7 +171,8 @@ public class ContactHelper extends HelperBase {
   }
   public void returnToContactsGroupPage(String name) {
    // wd.findElement(By.cssSelector("a[href=\"./?group=" + id + "\"]")).click();
-    wd.findElements(By.linkText("group page \"" + name + "\""));
+    //wd.findElements(By.linkText("group page \"" + name + "\""));
+    click(By.linkText("group page \"" + name + "\""));
   }
 
   public void selectAddingGroupByID(ContactGeneral contact) {
@@ -185,21 +188,39 @@ public class ContactHelper extends HelperBase {
    //   Assert.assertTrue(group.getContacts().size()==1);
      // new Select(wd.findElement(By.name("group"))).selectByValue(valueOf(group.getId()));
        //new Select(wd.findElement(By.name("group"))).selectByValue(valueOf(contact.getGroups().iterator().next().getId()));
-    new Select(wd.findElement(By.name("group"))).selectByValue(valueOf(group.getId()));
+    selectByValue(By.name("group"),valueOf(group.getId()));
+  }
+  public void waitSelectGroupByID(GroupData group) {
+    Wait<WebDriver> wait = new WebDriverWait(wd, 5, 5000);
+    wait.until(ExpectedConditions.visibilityOf(wd.findElement(By.name("group"))));
+    selectByValue(By.name("group"),valueOf(group.getId()));
+  }
+  public void waitSelectGroupByID1(GroupData group) {
+    Wait<WebDriver> wait = new WebDriverWait(wd, 5, 5000);
+    wait.until(ExpectedConditions.visibilityOf(wd.findElement(By.name("group"))));
+    click((By.name("group")));
+    selectByValue(By.name("group"),valueOf(group.getId()));
+    //click(By.name(group.getName()));
+    //click(By.name("group"));
+  }
+  public void selectVisibleAllGroups() {
+    click(By.name("group"));
+    selectByVisibleText(By.name("group"),valueOf("[all]"));
 
 
   }
 
   public void selectAddingGroupByID1(ContactGeneral contact, GroupData group) {
-    if (contact.getGroups().size()>0) {
-      Assert.assertTrue(contact.getGroups().size()==1);
-      new Select(wd.findElement(By.name("to_group"))).selectByValue(valueOf(group.getId()));
-    }
+   // if (contact.getGroups().size()>0) {
+    //  Assert.assertTrue(contact.getGroups().size()==1);
+    click(By.name("to_group"));
+      selectByValue(By.name("to_group"),valueOf(group.getId()));
+
   }
-  public void selectAddingGroupByName(ContactGeneral contact) {
+  public void selectAddingGroupByName(ContactGeneral contact,GroupData group) {
     if (contact.getGroups().size()>0) {
       Assert.assertTrue(contact.getGroups().size()==1);
-      new  Select(wd.findElement(By.name("to_group"))).selectByVisibleText(contact.getGroups().iterator().next().getName());
+      selectByVisibleText(By.name("to_group"),group.getName());
     }
   }
   //public void selestG (GroupData group, ContactGeneral contact){
