@@ -23,43 +23,6 @@ public class HttpSession {
     httpClient = HttpClients.custom().setRedirectStrategy(new LaxRedirectStrategy()).build();
 
   }
-  public boolean loginL(String username, String password) throws IOException {
-    HttpPost post1 = new HttpPost(app.getProperty("web.baseUrl") + "login_page.php");
-    List <NameValuePair> params1 = new ArrayList<>();
-    params1.add(new BasicNameValuePair("username",username));
-   // params.add(new BasicNameValuePair("secure_session","on"));
-    //params.add(new BasicNameValuePair("password",password));
-   // params.add(new BasicNameValuePair("secure_session","on"));
-    params1.add(new BasicNameValuePair("return","index.php"));
-    post1.setEntity(new UrlEncodedFormEntity(params1));
-
-    HttpPost post = new HttpPost(app.getProperty("web.baseUrl") + "login_password_page.php");
-    List <NameValuePair> params = new ArrayList<>();
-    //params.add(new BasicNameValuePair("username",username));
-    // params.add(new BasicNameValuePair("secure_session","on"));
-    params.add(new BasicNameValuePair("password",password));
-    // params.add(new BasicNameValuePair("secure_session","on"));
-    params.add(new BasicNameValuePair("return","index.php"));
-    post.setEntity(new UrlEncodedFormEntity(params));
-
-
-    CloseableHttpResponse response = httpClient.execute(post);
-    String body = geTextFrom(response);
-    return body.contains(String.format("<span class =\"user-info\">%s</span>",username)); // текст(%s)= это имя пользователя
-  }
-  public boolean loginP(String username, String password) throws IOException {
-    HttpPost post = new HttpPost(app.getProperty("web.baseUrl") + "login_page.php");
-    List <NameValuePair> params = new ArrayList<>();
-    params.add(new BasicNameValuePair("username",username));
-    // params.add(new BasicNameValuePair("secure_session","on"));
-    params.add(new BasicNameValuePair("password",password));
-    params.add(new BasicNameValuePair("secure_session","on"));
-    params.add(new BasicNameValuePair("return","index.php"));
-    post.setEntity(new UrlEncodedFormEntity(params));
-    CloseableHttpResponse response = httpClient.execute(post);
-    String body = geTextFrom(response);
-    return body.contains(String.format("<span class =\"user-info\">%s</span>",username)); // текст(%s)= это имя пользователя
-  }
 
   public boolean login(String username, String password) throws IOException {
     HttpPost post = new HttpPost(app.getProperty("web.baseUrl") + "login.php");
