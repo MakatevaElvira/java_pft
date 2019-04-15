@@ -1,11 +1,9 @@
 package ru.stqa.pft.mantis.appManager;
 
 import org.apache.commons.net.telnet.TelnetClient;
-import org.subethamail.wiser.WiserMessage;
 import ru.stqa.pft.mantis.model.MailMessage;
 
 import javax.mail.*;
-import javax.mail.internet.MimeMessage;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintStream;
@@ -23,7 +21,7 @@ public class JamesHelper {
 
   private Session mailSession;
   private Store store;
-  private String mailServer;
+  private String mailserver;
 
   public JamesHelper(ApplicationManager app) {
     this.app = app;
@@ -40,9 +38,10 @@ public class JamesHelper {
   }
 
 
-  public void createUser(String name, String password) {
+  public void createUser(String name, String passwd) {
     initTelnetSession();
-    write("adduser " + name + " " + " added");
+    write("adduser " + name + " " + passwd);
+    String result = readUntil("User " + name + " " + " added");
     closeTelnetSession();
   }
 
@@ -54,23 +53,21 @@ public class JamesHelper {
   }
 
   private void initTelnetSession() {
-    mailServer = app.getProperty("mailserver.host");
+    mailserver = app.getProperty("mailserver.host");
     int port = Integer.parseInt(app.getProperty("mailserver.port"));
     String login = app.getProperty("mailserver.adminlogin");
     String password = app.getProperty("mailserver.adminpassword");
 
     try {
-      telnet.connect(mailServer, port);
+      telnet.connect(mailserver, port);
       in = telnet.getInputStream();
       out = new PrintStream(telnet.getOutputStream());
     } catch (Exception e) {
-      // TODO Auto-general catch block
+
       e.printStackTrace();
     }
-    readUntil("Login id:");
-    write(" ");
-    readUntil("Password:");
-    write(" ");
+   // readUntil("Login id:");     write(" ");     readUntil("Password:");     write(" ");
+    // //TO DO Auto-general catch block
 
     // Second Login
     readUntil("Login id:");
@@ -126,7 +123,7 @@ public class JamesHelper {
         return allMail;
       }
       try {
-        Thread.sleep(1000);
+        Thread.sleep(3000);
       } catch (InterruptedException e) {
         e.printStackTrace();
       }
@@ -149,7 +146,7 @@ public class JamesHelper {
 
   private Folder openInbox(String username, String password) throws MessagingException {
     store = mailSession.getStore("pop3");
-    store.connect(mailServer, username, password);
+    store.connect(mailserver, username, password);
     Folder folder = store.getDefaultFolder().getFolder("INBOX");
     folder.open(Folder.READ_WRITE);
     return folder;

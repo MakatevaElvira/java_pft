@@ -2,6 +2,9 @@ package ru.stqa.pft.mantis.appManager;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Wait;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class RegistrationHelper extends HelperBase {
 
@@ -14,6 +17,9 @@ public class RegistrationHelper extends HelperBase {
     type(By.name("username"),username);
     type(By.name("email"),email);
     click(By.cssSelector("input[type='submit']"));
+    Wait<WebDriver> wait = new WebDriverWait(wd, 35);
+    wait.until(ExpectedConditions
+            .visibilityOf(wd.findElement(By.xpath("(.//*[normalize-space(text()) and normalize-space(.)='Продолжить'])[1]/preceding::div[2]"))));
   }
 
   public void finish(String confirmationLink, String password) {
