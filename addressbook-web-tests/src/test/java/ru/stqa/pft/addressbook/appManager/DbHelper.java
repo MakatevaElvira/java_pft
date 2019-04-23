@@ -35,6 +35,17 @@ public class DbHelper {
     session.close();
     return new Groups(result);
   }
+  //public Groups contactGroups(ContactGeneral contact) { //добавить поиск по ид
+    //Session session = sessionFactory.openSession();
+    //session.beginTransaction();
+    //List<GroupData> result = session.createQuery( "from GroupData where id = '%s'",contact.getId()).list();
+   // for ( GroupData group :  result ) {
+    //  System.out.println(group );
+    //}
+   // session.getTransaction().commit();
+    //session.close();
+    //return new Groups(result);
+ // }
 
   public Contacts contacts(){
     Session session = sessionFactory.openSession();

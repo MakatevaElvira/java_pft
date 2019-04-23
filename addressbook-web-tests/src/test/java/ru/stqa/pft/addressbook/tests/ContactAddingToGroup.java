@@ -55,12 +55,12 @@ public class ContactAddingToGroup extends TestBase {
   }
 
   @Test
-  public void testContactRemoveFromGroup() { //Идеально!
+  public void testContactRemoveFromGroup(GroupData group) { //Идеально!
     Groups groups = app.db().groups();
     Contacts before = app.db().contacts();
 
     GroupData groupA = groups.iterator().next();
-    GroupData group = new GroupData().withId(groupA.getId()).withName(groupA.getName());
+    //GroupData group = new GroupData().withId(groupA.getId()).withName(groupA.getName());
     ContactGeneral modifyContact = before.iterator().next();
     ContactGeneral contact = new ContactGeneral().withId(modifyContact.getId())
             .withName(modifyContact.getName()).withLastName(modifyContact.getLastName())

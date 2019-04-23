@@ -138,6 +138,7 @@ public class ContactHelper extends HelperBase {
     returnToContactPage();
   }
 
+
   public void modify(ContactGeneral contact, boolean creation) {
     initContactModificationById(contact.getId());
     fillGeneralContact(contact, creation);
