@@ -58,7 +58,7 @@ public class DbHelper {
     session.close();
     return new Contacts(result);
   }
-  public Contacts getContactById (int id){
+  public Contacts getContactByIdOld (int id){
     Session session = sessionFactory.openSession();
     session.beginTransaction();
     List<ContactGeneral> result = session.createQuery(
@@ -72,14 +72,14 @@ public class DbHelper {
   }
 
 
-  public ContactGeneral getContactById1 (int id){
+  public ContactGeneral getContactById(int id){
     Session session = sessionFactory.openSession();
     session.beginTransaction();
     ContactGeneral contact  = (ContactGeneral)session.createQuery(   // new ContactGeneral().withId(id)
-            "from ContactGeneral where id = '" + id +"'");
+            "from ContactGeneral where id = '" + id +"'").uniqueResult();
 
     session.getTransaction().commit();
     session.close();
-    return new ContactGeneral();
+    return contact;
   }
 }

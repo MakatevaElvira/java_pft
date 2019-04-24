@@ -14,7 +14,7 @@ import java.util.Set;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-public class ContactAddingToGroup extends TestBase {
+public class ContactRemovingFromGroupTests extends TestBase {
   @BeforeMethod
   public void ensurePreconditions() {
     if (app.db().contacts().size() == 0) {
@@ -31,31 +31,45 @@ public class ContactAddingToGroup extends TestBase {
   }
 
   @Test
-  public void testContactAddingToGroup() { //Идеально!
+  public void testContactRemovingFromGroup777() {
     Groups groups = app.db().groups();
-    Contacts before = app.db().contacts();
-
+    Contacts contacts = app.db().contacts();
     GroupData groupA = groups.iterator().next();
     GroupData group = new GroupData().withId(groupA.getId()).withName(groupA.getName());
-    ContactGeneral modifyContact = before.iterator().next();
+    ContactGeneral modifyContact = contacts.iterator().next();
     ContactGeneral contact = new ContactGeneral().withId(modifyContact.getId())
             .withName(modifyContact.getName()).withLastName(modifyContact.getLastName())
             .withAddress(modifyContact.getAddress()).withMobileNumber(modifyContact.getMobileNumber())
             .inGroup(group);
     app.goTo().contactPage();
-    if (modifyContact.getGroups().contains(groupA)) {//+
-      app.contact().removeFromGroup(contact,false,groupA);
+
+    Groups before = modifyContact.getGroups();
+    if (modifyContact.getGroups().size() == 0) { //пункт 1 готов
+      app.contact().addToGroup(modifyContact, false, group); // id group
+      app.contact().removeFromGroup(modifyContact, false, group);
+    } else {
+      for (GroupData groupData : groups) {//для всех групп
+        if (groupData.getContacts().contains(modifyContact)) {
+          app.contact().removeFromGroup(contact, false, groupData);
+          return;
+        }
+      }
     }
-    app.contact().addToGroup(contact, false,group); //- in groupA
-    app.contact().selectVisibleAllGroups();
-    assertThat(app.contact().count(), equalTo( before.size()));
-    Contacts after = app.db().contacts();
-    assertThat(after, equalTo(before.withOut(modifyContact).withAdded(contact)));
-    verifyContactListInUI();
+    if (before.size() == 0) {
+      assertThat(modifyContact.getGroups().size(), equalTo(before.size()));
+    } else assertThat(modifyContact.getGroups().size(), equalTo(before.size() - 1));
+
+    Groups after = modifyContact.getGroups();
+    if (before.size() > 0) {
+      assertThat(after, equalTo(before.withOut(group)));
+    }
+    app.goTo().groupPage();
+    verifyGroupListInUI();
   }
 
-  @Test
-  public void testContactRemoveFromGroup(GroupData group) { //Идеально!
+
+  @Test(enabled = false)
+  public void testContactRemoveFromGroupOld(GroupData group) { //Идеально!
     Groups groups = app.db().groups();
     Contacts before = app.db().contacts();
 
@@ -68,12 +82,12 @@ public class ContactAddingToGroup extends TestBase {
             .inGroup(group);
     app.goTo().contactPage();
     if (modifyContact.getGroups().contains(groupA)) {//+
-      app.contact().removeFromGroup(modifyContact,false,groupA);
+      app.contact().removeFromGroup(modifyContact, false, groupA);
     }
     app.contact().addToGroup(modifyContact, false, group);
     app.contact().removeFromGroup(contact, false, group);
     app.contact().selectVisibleAllGroups();
-    assertThat(app.contact().count(), equalTo( before.size()));
+    assertThat(app.contact().count(), equalTo(before.size()));
     Contacts after = app.db().contacts();
     assertThat(after, equalTo(before.withOut(modifyContact).withAdded(contact)));
     verifyContactListInUI();

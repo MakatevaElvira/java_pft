@@ -41,6 +41,7 @@ public class GroupData {
 
   public int getId() {     return id;   }
 
+
   public GroupData withId(int id) {
     this.id = id;
     return this;
@@ -82,20 +83,18 @@ public class GroupData {
             ", name='" + name + '\'' +
             '}';
   }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
     GroupData groupData = (GroupData) o;
     return id == groupData.id &&
-            Objects.equals(name, groupData.name) &&
-            Objects.equals(header, groupData.header) &&
-            Objects.equals(footer, groupData.footer);
+            Objects.equals(name, groupData.name);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, name, header, footer);
+    return Objects.hash(id, name);
   }
+
 }
