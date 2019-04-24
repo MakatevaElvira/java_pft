@@ -185,7 +185,7 @@ public class ContactHelper extends HelperBase {
 
   }
   public void selectGroupByID(GroupData group) {
-   // if (group.getContacts().size()>0) {
+   //if (group.getContacts().size()>0) {
    //   Assert.assertTrue(group.getContacts().size()==1);
      // new Select(wd.findElement(By.name("group"))).selectByValue(valueOf(group.getId()));
        //new Select(wd.findElement(By.name("group"))).selectByValue(valueOf(contact.getGroups().iterator().next().getId()));

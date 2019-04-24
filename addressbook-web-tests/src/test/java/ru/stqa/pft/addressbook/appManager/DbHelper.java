@@ -35,7 +35,7 @@ public class DbHelper {
     session.close();
     return new Groups(result);
   }
-  //public Groups contactGroups(ContactGeneral contact) { //добавить поиск по ид
+  //public getContactById (ContactGeneral contact) { //добавить поиск по ид
     //Session session = sessionFactory.openSession();
     //session.beginTransaction();
     //List<GroupData> result = session.createQuery( "from GroupData where id = '%s'",contact.getId()).list();
@@ -57,5 +57,29 @@ public class DbHelper {
     session.getTransaction().commit();
     session.close();
     return new Contacts(result);
+  }
+  public Contacts getContactById (int id){
+    Session session = sessionFactory.openSession();
+    session.beginTransaction();
+    List<ContactGeneral> result = session.createQuery(
+            "from ContactGeneral where id = '" + id +"'").list();
+    for ( ContactGeneral contact :  result ) {
+      System.out.println(contact.getGroups() );
+    }
+    session.getTransaction().commit();
+    session.close();
+    return  new  Contacts(result);
+  }
+
+
+  public ContactGeneral getContactById1 (int id){
+    Session session = sessionFactory.openSession();
+    session.beginTransaction();
+    ContactGeneral contact  = (ContactGeneral)session.createQuery(   // new ContactGeneral().withId(id)
+            "from ContactGeneral where id = '" + id +"'");
+
+    session.getTransaction().commit();
+    session.close();
+    return new ContactGeneral();
   }
 }

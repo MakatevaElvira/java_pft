@@ -7,10 +7,7 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
-import ru.stqa.pft.addressbook.model.ContactGeneral;
-import ru.stqa.pft.addressbook.model.Contacts;
-import ru.stqa.pft.addressbook.model.GroupData;
-import ru.stqa.pft.addressbook.model.Groups;
+import ru.stqa.pft.addressbook.model.*;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -47,6 +44,7 @@ public class ContactAddingToGroup3 extends TestBase {
 
     GroupData groupA = groups.iterator().next();
     GroupData group = new GroupData().withId(groupA.getId()).withName(groupA.getName());
+    GroupData groupN = new GroupData().withName("Test new");
 
 
     ContactGeneral modifyContact = contacts.iterator().next();
@@ -72,11 +70,29 @@ public class ContactAddingToGroup3 extends TestBase {
         }
       }
     }
+    Groups groupsPlus = app.db().groups();
+    if (before.size() == groups.size()) {
+      assertThat(modifyContact.getGroups().withAdded(group).size(), equalTo(before.size() + 1));
+    } else     assertThat(modifyContact.getGroups().size(), equalTo(before.size() + 1));
 
-    assertThat(modifyContact.getGroups().size(), equalTo(before.size() + 1));
 
-    Groups after = modifyContact.getGroups();
-    assertThat(after, equalTo(before.withAdded(group)));
+
+    // ПОЛУЧИТЬ КОНТАКТ ИЗ БАЗЫ ПО ИД И ВЗЯТЬ ЕГО ГРУППЫ!!!
+  // Contacts contactById = app.db().getContactById(modifyContact.getId());
+   //Groups after = contactById.getGroups();
+
+    ContactGeneral contactById1 = app.db().getContactById1(modifyContact.getId());
+    Groups after1 = contactById1.getGroups();
+
+    //Groups after = modifyContact.getGroups();
+    if (before.size() < groups.size()){
+      System.out.println("after= " + after1);
+      System.out.println("before= " + before);
+
+      Assert.assertTrue(modifyContact.getGroups().withAdded(group).contains(group
+              .withId(groupsPlus.stream().mapToInt((g) -> g.getId()).max().getAsInt())));
+    } else  assertThat(after1, equalTo(before.withAdded(group)));
+
 
   }
 
