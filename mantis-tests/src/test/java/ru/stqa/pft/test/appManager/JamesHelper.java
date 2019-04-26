@@ -1,7 +1,7 @@
-package ru.stqa.pft.mantis.appManager;
+package ru.stqa.pft.test.appManager;
 
 import org.apache.commons.net.telnet.TelnetClient;
-import ru.stqa.pft.mantis.model.MailMessage;
+import ru.stqa.pft.test.model.MailMessage;
 
 import javax.mail.*;
 import java.io.IOException;

@@ -1,4 +1,4 @@
-package ru.stqa.pft.mantis.appManager;
+package ru.stqa.pft.test.appManager;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;

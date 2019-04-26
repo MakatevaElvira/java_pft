@@ -1,4 +1,4 @@
-package ru.stqa.pft.mantis.appManager;
+package ru.stqa.pft.test.appManager;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -11,7 +11,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
-import java.util.regex.MatchResult;
 
 public class ApplicationManager {
 
@@ -46,9 +45,7 @@ public class ApplicationManager {
     return new HttpSession(this);
   }
 
-  public String getProperty(String key) {
-   return properties.getProperty(key);
-  }
+
 
   public RegistrationHelper registration() {
     if (registrationHelper == null){

@@ -1,4 +1,4 @@
-package ru.stqa.pft.mantis.appManager;
+package ru.stqa.pft.test.appManager;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
