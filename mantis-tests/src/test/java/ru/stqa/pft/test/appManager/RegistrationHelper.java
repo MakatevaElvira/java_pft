@@ -18,8 +18,11 @@ public class RegistrationHelper extends HelperBase {
     type(By.name("email"),email);
     click(By.cssSelector("input[type='submit']"));
     Wait<WebDriver> wait = new WebDriverWait(wd, 35);
-    wait.until(ExpectedConditions
-            .visibilityOf(wd.findElement(By.xpath("(.//*[normalize-space(text()) and normalize-space(.)='Продолжить'])[1]/preceding::div[2]"))));
+    //wait.until(ExpectedConditions.visibilityOf(wd.findElement(By.xpath("(.//*[normalize-space(text()) and normalize-space(.)='Продолжить'])[1]/preceding::div[2]"))));
+    wait.until((ExpectedConditions.visibilityOf(wd.findElement(By.xpath(".//*[normalize-space(text()) and normalize-space(.)='Продолжить']")))));
+    //click(By.xpath(".//*[normalize-space(text()) and normalize-space(.)='Продолжить']"));
+
+
   }
 
   public void finish(String confirmationLink, String password) {
