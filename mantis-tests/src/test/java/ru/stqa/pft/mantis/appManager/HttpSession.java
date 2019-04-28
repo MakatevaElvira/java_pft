@@ -41,11 +41,11 @@ public class HttpSession {
    // return body.contains(String.format("//span[contains(text(),'administrator')]"));
    // return body.contains(String.format("<span class = \"italic\">%s</span>",username)); // текст(%s)= это имя пользователя
   }
-  public boolean login2(User user) throws IOException {
+  public boolean loginWithNewPassword(User user, String password) throws IOException {
     HttpPost post = new HttpPost(app.getProperty("web.baseUrl") + "login.php");
     List <NameValuePair> params = new ArrayList<>();
     params.add(new BasicNameValuePair("username",user.getUsername()));
-    params.add(new BasicNameValuePair("password",user.getPassword()));
+    params.add(new BasicNameValuePair("password",password));
     params.add(new BasicNameValuePair("secure_session","on"));
     params.add(new BasicNameValuePair("return","index.php"));
     post.setEntity(new UrlEncodedFormEntity(params));
