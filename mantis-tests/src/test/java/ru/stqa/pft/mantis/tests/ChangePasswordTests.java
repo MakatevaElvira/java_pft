@@ -55,8 +55,8 @@ public class ChangePasswordTests extends  TestBase {
     app.registration().changePassword();//нажали Сбросить пароль
 
     //List<MailMessage> mailMessages = app.james().waitForMail1(user,password, 120000);// шаг 2 получение ссылки и переход по ней
-    List<MailMessage> mailMessages = app.james().waitForMail1(admin, 120000);
-    String confirmationLink = findConfirmationLink(mailMessages,modifyUser.getEmail());
+    List<MailMessage> mailMessages = app.james().waitForMail1(user, password, 120000);
+    String confirmationLink = findChangingLink(mailMessages,modifyUser.getEmail());
     app.registration().finish(confirmationLink, passwordNew); //меняем пароль на новый
 
     User userById = app.db().getUserById(modifyUser.getId());
@@ -70,6 +70,11 @@ public class ChangePasswordTests extends  TestBase {
 
   }
   private String findConfirmationLink(List<MailMessage> mailMessages, String email) {
+    MailMessage mailMessage = mailMessages.stream().filter((m) -> m.to.equals(email)).findFirst().get();
+    VerbalExpression regex = VerbalExpression.regex().find("http://").nonSpace().oneOrMore().build();
+    return regex.getText(mailMessage.text);
+  }
+  private String findChangingLink (List<MailMessage> mailMessages, String email) {
     MailMessage mailMessage = mailMessages.stream().filter((m) -> m.to.equals(email)).findFirst().get();
     VerbalExpression regex = VerbalExpression.regex().find("http://").nonSpace().oneOrMore().build();
     return regex.getText(mailMessage.text);

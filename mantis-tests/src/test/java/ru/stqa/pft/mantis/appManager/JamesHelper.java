@@ -28,6 +28,11 @@ public class JamesHelper {
     this.app = app;
     telnet = new TelnetClient();
     mailSession = Session.getDefaultInstance(System.getProperties());
+
+    mailserver = app.getProperty("mailserver.host");
+    int port = Integer.parseInt(app.getProperty("mailserver.port"));
+    String login = app.getProperty("mailserver.adminlogin");
+    String password = app.getProperty("mailserver.adminpassword");
   }
 
   public boolean doesUserExist(String name) throws IOException { // проверка существования пользлвателя
@@ -131,10 +136,10 @@ public class JamesHelper {
     }
     throw new Error("No mail :(");
   }
-  public List<MailMessage> waitForMail1(User user, long timeout) throws MessagingException, IOException {
+  public List<MailMessage> waitForMail1(User user, String password , long timeout) throws MessagingException, IOException {
     long now = System.currentTimeMillis();
     while (System.currentTimeMillis() < now + timeout) {
-      List<MailMessage> allMail = getAllMail(user.getUsername(), user.getPassword());
+      List<MailMessage> allMail = getAllMail(user.getUsername(), password);
       if (allMail.size() > 0) {
         return allMail;
       }
