@@ -1,8 +1,5 @@
 package ru.stqa.pft.test.appManager;
-import org.openqa.selenium.By;
-import org.openqa.selenium.NoAlertPresentException;
-import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.Wait;
@@ -11,6 +8,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.io.File;
 
 import static java.lang.String.valueOf;
+import static org.openqa.selenium.support.ui.ExpectedConditions.visibilityOfElementLocated;
 
 public class HelperBase {
   protected ApplicationManager app;
@@ -28,9 +26,19 @@ public class HelperBase {
   public void displayed(String linkText){
     wd.findElement(By.linkText(linkText)).isDisplayed();
   }
-  public void waitOfVisiobility(By locator){
+  public void waitVisibilityOf(By locator){
     Wait<WebDriver> wait = new WebDriverWait(wd, 5, 5000);
     wait.until(ExpectedConditions.visibilityOf(wd.findElement(locator)));
+    //WebElement button = wait.until(visibilityOfElementLocated(By.id("en")));
+//    wait.until(visibilityOfElementLocated(By.id("menu")));
+  }
+  public void waitClickableOf(By locator){
+    Wait<WebDriver> wait = new WebDriverWait(wd, 3, 5000);
+    wait.until(ExpectedConditions.elementToBeClickable(wd.findElement(locator)));
+  }
+  public void waitPresentOf(By locator){
+    Wait<WebDriver> wait = new WebDriverWait(wd, 3, 5000);
+   // wait.until(ExpectedConditions.textToBePresentInElement((wd.findElement(locator)));
   }
 
   public void type(By locator, String text) {

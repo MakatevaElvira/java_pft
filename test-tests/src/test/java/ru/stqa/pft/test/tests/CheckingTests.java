@@ -7,14 +7,25 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 public class CheckingTests extends TestBase {
 
-  @Test
+  @Test //1
   public void testTopMenu(){
-    app.menuHelper().checkTopMenu();
+    //app.menu().close();
+    app.menu().checkTopMenu();
   }
-  @Test
+  @Test //2
   public void testWhoWeServeMenu(){
-    app.menuHelper().checkWhoWeServe();
-    assertThat(app.menuHelper().whoWeServeCount(), equalTo( 12));
+    //app.menu().close();
+    app.menu().checkWhoWeServe();
+    assertThat(app.menu().whoWeServeCount(), equalTo( 12));
+  }
+  @Test //3
+  public void testStudents(){
+    app.menu().checkStudentsItem();
+  }
+  @Test //4
+  public void testSubjectsMenu(){
+    app.menu().checkSubjectsMenu();
+    assertThat(app.menu().educationCount(), equalTo( 12));
 
   }
 }
