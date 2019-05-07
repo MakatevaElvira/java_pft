@@ -33,8 +33,16 @@ public class HelperBase {
 //    wait.until(visibilityOfElementLocated(By.id("menu")));
   }
   public void waitClickableOf(By locator){
-    Wait<WebDriver> wait = new WebDriverWait(wd, 3, 5000);
+    Wait<WebDriver> wait = new WebDriverWait(wd, 5, 5000);
     wait.until(ExpectedConditions.elementToBeClickable(wd.findElement(locator)));
+  }
+  public void waitInvisiblOf(By locator) {
+    Wait<WebDriver> wait = new WebDriverWait(wd, 3, 5000);
+    wait.until(ExpectedConditions.invisibilityOf(wd.findElement(locator)));
+  }
+  public void waitInvisibilityOfSelectCountry() {
+    Wait<WebDriver> wait = new WebDriverWait(wd, 3, 5000);
+    wait.until(ExpectedConditions.invisibilityOf(wd.findElement(By.xpath("//div[contains(text(),'Undetected country')]"))));
   }
   public void waitPresentOf(By locator){
     Wait<WebDriver> wait = new WebDriverWait(wd, 3, 5000);

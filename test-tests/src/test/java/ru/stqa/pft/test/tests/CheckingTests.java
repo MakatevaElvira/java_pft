@@ -26,6 +26,19 @@ public class CheckingTests extends TestBase {
   public void testSubjectsMenu(){
     app.menu().checkSubjectsMenu();
     assertThat(app.menu().educationCount(), equalTo( 12));
-
+  }
+  @Test //5
+  public void testLogo(){
+    app.menu().checkLogo();
+  }
+  @Test //6
+  public void testSearch(){
+    app.menu().checkSearch();
+  }
+  @Test //7
+  public void  testSearchJava(){
+    app.menu().checkSearchJava();
+    assertThat(app.menu().suggestionsCount(), equalTo( 4));
+    assertThat(app.menu().productsCount(), equalTo( 4));
   }
 }

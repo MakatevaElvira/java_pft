@@ -10,6 +10,10 @@ import java.util.Iterator;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.testng.Assert.*;
+
 public class MenuHelper extends HelperBase {
 
   public MenuHelper(ApplicationManager app) {
@@ -55,32 +59,36 @@ public class MenuHelper extends HelperBase {
     assertStudentsLearnMoreUrl();
   }
 
-  public void openStudentsItem(){
+  public void openStudentsItem() {
     waitVisibilityOf(By.linkText("WHO WE SERVE"));
     waitClickableOf(By.xpath("//a[contains(text(),'WHO WE SERVE')]/.."));
     click(By.xpath("//a[contains(text(),'WHO WE SERVE')]/.."));
     click(By.linkText("Students"));
   }
-  public void assertStudentsUrl(){
+
+  public void assertStudentsUrl() {
     wd.manage().timeouts().pageLoadTimeout(5, TimeUnit.SECONDS);
     String URL = wd.getCurrentUrl();
-    Assert.assertEquals(URL, "https://www.wiley.com/en-us/students" );
+    assertEquals(URL, "https://www.wiley.com/en-us/students");
     close();
   }
-  public void openStudentsLearnMore(){
+
+  public void openStudentsLearnMore() {
     displayed("WHO WE SERVE");
     wd.getPageSource().contains("Learn more");
     waitClickableOf(By.xpath("//p/a/span/span"));
     click(By.xpath("//p[21]/a/span/span"));
   }
-  public void assertStudentsLearnMoreUrl(){
+
+  public void assertStudentsLearnMoreUrl() {
     wd.manage().timeouts().pageLoadTimeout(5, TimeUnit.SECONDS);
     waitVisibilityOf(By.cssSelector("img.dark_logo.mobile_logo"));
     close();
     String redirected_url = wd.getCurrentUrl();
-    Assert.assertEquals(redirected_url, "https://www.wileyplus.com/" );
+    assertEquals(redirected_url, "https://www.wileyplus.com/");
   }
-  public void checkSubjectsMenu(){
+
+  public void checkSubjectsMenu() {
     waitVisibilityOf(By.xpath("//a[contains(text(),'SUBJECTS')]/.."));
     //waitVisibilityOf(By.linkText("SUBJECTS"));
     //click(By.xpath("//ul[@class='navigation-menu-items initialized']/li[2]/div/span[2]"));
@@ -110,6 +118,7 @@ public class MenuHelper extends HelperBase {
     displayed("Special Topics");
     displayed("Vocational Technology");
   }
+
   public int educationCount() {
     return wd.findElements(By.xpath("//li[9]/div/ul/ul/li/a")).size();
   }
@@ -135,16 +144,55 @@ public class MenuHelper extends HelperBase {
       }
     }
   }
+
   public void skip2() {
     waitVisibilityOf(By.xpath("//button[contains(text(),'NO')]/.."));
     waitClickableOf(By.cssSelector("button.close"));
     click(By.cssSelector("button.close"));
-      }
+  }
+
   public void close() {
-    if( isElementPresent(By.xpath("//button[contains(text(),'NO')]/.."))) {
+    if (isElementPresent(By.xpath("//button[contains(text(),'NO')]/.."))) {
       click(By.cssSelector("button.close"));
     }
   }
 
 
+  public void checkLogo() {
+    waitClickableOf(By.xpath("//img[1][@title='Wiley']"));
+    click(By.xpath("//img[1][@title='Wiley']"));
+    String URL = wd.getCurrentUrl();
+    assertEquals(URL, app.getProperty("web.baseUrl"));
+    close();
+
+  }
+
+  public void checkSearch() {
+    waitInvisibilityOfSelectCountry();
+    waitClickableOf(By.xpath("//button[@type='submit']"));
+    click(By.xpath("//button[@type='submit']"));
+    String URL = wd.getCurrentUrl();
+    assertEquals(URL, app.getProperty("web.baseUrl"));
+    waitInvisibilityOfSelectCountry();
+    //assertEquals(false,isElementPresent(By.xpath("//div[contains(text(),'Undetected country')]")));
+  }
+
+  public void checkSearchJava() {
+    type(By.xpath("//input[@type='search']"), "java");
+    suggestionsCount();
+    productsCount();
+
+  }
+
+  public int suggestionsCount() {
+    // return wd.findElements(By.xpath("//h3[contains(text(),'Suggestions')]/..//span[contains(text(),'java')]")) //[starts-with(.,' sfoobar:')]
+    //.size();
+    return wd.findElements(By.xpath("//h3[contains(text(),'Suggestions')]/..//span[starts-with(text(),'java')]"))
+            .size();
+  }
+
+  public int productsCount() {
+    return wd.findElements(By.xpath("//h3[contains(text(),'Products')]/..//span[contains(text(),'Java')]")) //[starts-with(.,' sfoobar:')]
+            .size();
+  }
 }
