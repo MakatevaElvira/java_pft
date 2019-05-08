@@ -21,6 +21,7 @@ public class ApplicationManager {
 
   private String browser;
   private MenuHelper menuHelper;
+  private NavigationHelper navigationHelper;
 
 
   public ApplicationManager(String browser) {
@@ -85,6 +86,12 @@ public class ApplicationManager {
       menuHelper = new MenuHelper(this);
     }
     return menuHelper;
+  }
+  public NavigationHelper goTo(){
+    if (navigationHelper == null){
+      navigationHelper = new NavigationHelper(this);
+    }
+    return navigationHelper;
   }
 
 }

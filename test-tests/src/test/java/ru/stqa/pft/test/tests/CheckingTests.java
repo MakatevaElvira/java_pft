@@ -41,4 +41,16 @@ public class CheckingTests extends TestBase {
     assertThat(app.menu().suggestionsCount(), equalTo( 4));
     assertThat(app.menu().productsCount(), equalTo( 4));
   }
+  @Test //8
+  public void testSearchJavaFull(){
+    app.menu().searchJava();
+    assertThat(app.menu().countItemsPerPage(), equalTo(10));
+    assert app.menu().countAddToCartOnSearchPage() >= 10; //проверку нужно анализировать, по факту не в каждом title может быть эта опция,
+    // а где-то их 2
+  }
+  @Test //9 аналогичен 8му
+  public void testSearchJavaFull2(){
+    app.menu().searchJava2();
+    assertThat(app.menu().countItemsPerPage(), equalTo(10));
+  }
 }

@@ -2,16 +2,13 @@ package ru.stqa.pft.test.appManager;
 
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.interactions.Action;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
-import org.testng.Assert;
 
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
-
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.MatcherAssert.assertThat;
 import static org.testng.Assert.*;
 
 public class MenuHelper extends HelperBase {
@@ -57,6 +54,12 @@ public class MenuHelper extends HelperBase {
     assertStudentsUrl();
     openStudentsLearnMore();
     assertStudentsLearnMoreUrl();
+    backToHomePage();
+    close();
+  }
+
+  private void backToHomePage() {
+    wd.get(app.getProperty("web.baseUrl"));
   }
 
   public void openStudentsItem() {
@@ -178,7 +181,9 @@ public class MenuHelper extends HelperBase {
   }
 
   public void checkSearchJava() {
-    type(By.xpath("//input[@type='search']"), "java");
+    waitInvisibilityOfSelectCountry();
+    waitClickableOf(By.xpath("//input[@type='search']"));
+    type(By.xpath("//input[@type='search']"), "Java");
     suggestionsCount();
     productsCount();
 
@@ -195,4 +200,44 @@ public class MenuHelper extends HelperBase {
     return wd.findElements(By.xpath("//h3[contains(text(),'Products')]/..//span[contains(text(),'Java')]")) //[starts-with(.,' sfoobar:')]
             .size();
   }
+
+  public void searchJava() {
+    waitInvisibilityOfSelectCountry();
+    waitClickableOf(By.xpath("//input[@type='search']"));
+    type(By.xpath("//input[@type='search']"), "Java");
+    click(By.xpath("//button[@type='submit']"));
+    close();
+    waitInvisibilityOfSelectCountry();
+    countItemsPerPage();
+    countAddToCartOnSearchPage();
+
+  }
+  public void searchJava2() { //without AddToCart
+    waitInvisibilityOfSelectCountry();
+    waitClickableOf(By.xpath("//input[@type='search']"));
+    type(By.xpath("//input[@type='search']"), "Java");
+    click(By.xpath("//button[@type='submit']"));
+    close();
+    waitInvisibilityOfSelectCountry();
+    countItemsPerPage();
+
+  }
+  public int countItemsPerPage(){
+    //return wd.findElements(By.xpath("//div[@class='product-image']")).size();
+    return wd.findElements(By.xpath("//div[@class='product-content']/h3[@class='product-title']")).size();
+  }
+  public int countAddToCartOnSearchPage(){
+    return wd.findElements(By.xpath("//button[contains(text(),'Add to cart')]")).size();
+
+  }
+
+  public int countAddToCartOnSearchPage1(){ // нужно доработать
+    List<WebElement> elements = wd.findElements(By.xpath("//div[@class='product-image']"));
+    for (WebElement element : elements){
+      element.findElement(By.xpath("//button[contains(text(),'Add to cart')]")).getSize();
+    }
+    System.out.println(elements.size());
+    return elements.size();
+  }
+
 }
