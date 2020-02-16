@@ -3,6 +3,7 @@ package ru.stqa.pft.test.tests;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeSuite;
@@ -14,10 +15,10 @@ public class AuthTest {
 
 @BeforeSuite
     public void start(){
-    driver = new ChromeDriver();
+    driver = new FirefoxDriver();
     wait = new WebDriverWait(driver,10);
 }
-@Test
+@Test(enabled = false)
     public void testAuth(){
     driver.navigate().to("http://localhost:8080/litecart/admin/login.php");
     driver.findElement(By.name("username")).sendKeys("admin");

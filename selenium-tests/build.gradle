@@ -11,5 +11,5 @@ dependencies {
     compile 'org.hamcrest:java-hamcrest:2.0.0.0'
     implementation 'com.jayway.restassured:rest-assured:2.9.0'
 }
-
+test{maxParallelForks = 10}
 
