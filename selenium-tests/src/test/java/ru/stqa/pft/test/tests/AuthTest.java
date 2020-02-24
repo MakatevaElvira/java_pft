@@ -18,7 +18,7 @@ public class AuthTest {
     driver = new FirefoxDriver();
     wait = new WebDriverWait(driver,10);
 }
-@Test(enabled = false)
+@Test(enabled = true)
     public void testAuth(){
     driver.navigate().to("http://localhost:8080/litecart/admin/login.php");
     driver.findElement(By.name("username")).sendKeys("admin");
