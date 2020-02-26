@@ -12,7 +12,7 @@ public class MainPageTest extends TestBase {
     public void testStickerDucks() {
         driver.navigate().to("http://localhost:8080/litecart/en/");
 
-        List<WebElement> ducks = driver.findElements(By.xpath("//div[@class='image-wrapper']"));
+        List<WebElement> ducks = driver.findElements(By.cssSelector("li[class^='product']"));
         for (WebElement duck : ducks) {
             List<WebElement>  stickers =  duck.findElements(By.cssSelector("div[class^='sticker']"));
             Assert.assertEquals(stickers.size(),1);
