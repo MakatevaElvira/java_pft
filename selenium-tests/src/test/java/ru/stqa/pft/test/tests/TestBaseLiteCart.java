@@ -8,10 +8,14 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.Assert;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class TestBaseLiteCart {
@@ -43,6 +47,19 @@ public class TestBaseLiteCart {
         Wait<WebDriver>  wait = new WebDriverWait(driver, 5, 1000)
                 .withMessage("Element was not found").ignoring(StaleElementReferenceException.class, ElementNotVisibleException.class);;
         wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(locator)));
+    }
+    public void assertListIsSorted(By selector){
+        ArrayList<String> сountriesList = new ArrayList<>();
+        List<WebElement> сountries = driver.findElements(selector);
+        for (WebElement сountry : сountries) {
+            сountriesList.add(сountry.getText());
+        }
+        ArrayList<String> sortedList = new ArrayList<>();
+        for (String s : сountriesList) {
+            sortedList.add(s);
+        }
+        Collections.sort(sortedList);
+        Assert.assertTrue(sortedList.equals(сountriesList));
     }
 
     @BeforeSuite

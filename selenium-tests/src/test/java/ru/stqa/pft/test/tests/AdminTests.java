@@ -69,6 +69,7 @@ public class AdminTests extends TestBaseLiteCart {
             treeElements.get(i).click();
             waitVisibilityOf(By.xpath("//h1"));
 
+
         }
     }
 
