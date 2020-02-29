@@ -37,6 +37,9 @@ public class TestBaseLiteCart {
         ;
         wait.until(ExpectedConditions.visibilityOf(driver.findElement(locator)));
     }
+    public void waitInvisibility(By locator){
+        new WebDriverWait(driver, 5).until(ExpectedConditions.invisibilityOfElementLocated(locator));
+    }
     public void waitToClick(By locator) {
         Wait<WebDriver> wait = new WebDriverWait(driver, 5, 1000)
                 .withMessage("Element was not found").ignoring(NoSuchElementException.class);
@@ -48,18 +51,44 @@ public class TestBaseLiteCart {
                 .withMessage("Element was not found").ignoring(StaleElementReferenceException.class, ElementNotVisibleException.class);;
         wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(locator)));
     }
-    public void assertListIsSorted(By selector){
+    public void assertListIsSortedByText(By selector){
         ArrayList<String> сountriesList = new ArrayList<>();
         List<WebElement> сountries = driver.findElements(selector);
         for (WebElement сountry : сountries) {
             сountriesList.add(сountry.getText());
+            String text = сountry.getText();
+            System.out.println("text= "+text);
         }
+        System.out.println("сountriesList= "+сountriesList);
         ArrayList<String> sortedList = new ArrayList<>();
         for (String s : сountriesList) {
             sortedList.add(s);
+            System.out.println("s= "+s);
         }
         Collections.sort(sortedList);
-        Assert.assertTrue(sortedList.equals(сountriesList));
+        System.out.println("sortedList= "+sortedList);
+        //Assert.assertTrue(sortedList.equals(сountriesList));
+        Assert.assertEquals(sortedList,сountriesList);
+    }
+
+    public void assertListIsSortedByValue(By selector){
+        ArrayList<String> сountriesList = new ArrayList<>();
+        List<WebElement> сountries = driver.findElements(selector);
+        for (WebElement сountry : сountries) {
+            сountriesList.add(сountry.getAttribute("value"));
+            String text = сountry.getAttribute("value");
+            System.out.println("text= "+text);
+        }
+        System.out.println("сountriesList= "+сountriesList);
+        ArrayList<String> sortedList = new ArrayList<>();
+        for (String s : сountriesList) {
+            sortedList.add(s);
+            System.out.println("s= "+s);
+        }
+        Collections.sort(sortedList);
+        System.out.println("sortedList= "+sortedList);
+        //Assert.assertTrue(sortedList.equals(сountriesList));
+        Assert.assertEquals(sortedList,сountriesList);
     }
 
     @BeforeSuite
