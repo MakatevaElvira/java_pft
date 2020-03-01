@@ -94,7 +94,7 @@ public class TestBaseLiteCart {
     @BeforeSuite
     public void start(){
         driver = new ChromeDriver();
-        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+        driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
         driver.manage().timeouts().pageLoadTimeout(20, TimeUnit.SECONDS);
         wait = new WebDriverWait(driver,10);
         login();

@@ -35,5 +35,21 @@ public class CountriesPageTest extends TestBaseLiteCart {
 
         }
     }
+    @Test
+    public void testZonesCountrySort()  {
+        driver.navigate().to("http://localhost:8080/litecart/admin/?app=geo_zones&doc=geo_zones");
+        List<WebElement> rows = driver.findElements(By.xpath("//tr[@class='row']//a[not(@title='Edit')]"));
+        int numberListElements = rows.size();
+        for (int i = 0; i < numberListElements; i++) { 
+            wait.until(ExpectedConditions
+                    .presenceOfElementLocated(By.xpath("//tr[@class='row']//a[not(@title='Edit')]")));
+            rows = driver.findElements(By.xpath("//tr[@class='row']//a[not(@title='Edit')]"));
+            rows.get(i).isDisplayed();
+            rows.get(i).click();
+            driver.findElement(By.xpath("//h2"));
+            assertListIsSortedByText(By.cssSelector("select[name*=zone_code] option[selected=selected]"));
+            driver.findElement(By.xpath("//span/button[@name='cancel']")).click();
 
+        }
+    }
 }
