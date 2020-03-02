@@ -40,7 +40,7 @@ public class CountriesPageTest extends TestBaseLiteCart {
         driver.navigate().to("http://localhost:8080/litecart/admin/?app=geo_zones&doc=geo_zones");
         List<WebElement> rows = driver.findElements(By.xpath("//tr[@class='row']//a[not(@title='Edit')]"));
         int numberListElements = rows.size();
-        for (int i = 0; i < numberListElements; i++) { 
+        for (int i = 0; i < numberListElements; i++) {
             wait.until(ExpectedConditions
                     .presenceOfElementLocated(By.xpath("//tr[@class='row']//a[not(@title='Edit')]")));
             rows = driver.findElements(By.xpath("//tr[@class='row']//a[not(@title='Edit')]"));

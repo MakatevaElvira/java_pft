@@ -6,6 +6,7 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
@@ -90,6 +91,7 @@ public class TestBaseLiteCart {
         //Assert.assertTrue(sortedList.equals(сountriesList));
         Assert.assertEquals(sortedList,сountriesList);
     }
+
 
     @BeforeSuite
     public void start(){
