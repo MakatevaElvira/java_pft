@@ -14,6 +14,7 @@ import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -90,6 +91,17 @@ public class TestBaseLiteCart {
         System.out.println("sortedList= "+sortedList);
         //Assert.assertTrue(sortedList.equals(сountriesList));
         Assert.assertEquals(sortedList,сountriesList);
+    }
+    public void attach (By locator, File file) {
+        if (file != null) {
+            driver.findElement(locator).sendKeys(file.getAbsolutePath());
+        }
+    }
+    public  void scrollToClick(By locator){
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        WebElement element = driver.findElement(locator);
+        js.executeScript("arguments[0].scrollIntoView();", element);
+        element.click();
     }
 
 

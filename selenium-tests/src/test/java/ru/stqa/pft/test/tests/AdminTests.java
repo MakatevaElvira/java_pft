@@ -7,7 +7,9 @@ import org.openqa.selenium.support.FindBy;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import org.w3c.dom.html.HTMLElement;
+import ru.stqa.pft.test.models.Product;
 
+import java.io.File;
 import java.util.List;
 
 public class AdminTests extends TestBaseLiteCart {
@@ -71,6 +73,36 @@ public class AdminTests extends TestBaseLiteCart {
 
 
         }
+    }
+    @Test()
+    public void testAddNewProduct(){
+        File photo = new File("src/test/resources/rizen.png");
+        Product product = new Product().withName("Dog").withPhoto(photo)
+                .withDiscription("Beautiful dog").withPrice("1000")
+                .withCurrency("USD");
+        driver.findElement(By.xpath("//li[@id='app-'and position()=2]")).click();
+        driver.findElement(By.cssSelector("a[href*=edit_product]")).isDisplayed();
+        driver.findElement(By.cssSelector("a[href*=edit_product]")).click();
+        //General
+        driver.findElement(By.xpath("//a[.='General']")).isDisplayed();
+        driver.findElement(By.xpath("//input[@value='1' and @type='radio']")).click();
+        driver.findElement(By.cssSelector("input[name='name[en]']")).sendKeys(product.getName());
+        attach(By.cssSelector("input[type='file']"),product.getPhoto());
+        //Information
+        driver.findElement(By.xpath("//a[.='Information']")).click();
+        waitInvisibility(By.cssSelector("input[type='file']"));
+        driver.findElement(By.cssSelector("div[dir=ltr]")).sendKeys(product.getDiscription());
+        //Prices
+        driver.findElement(By.xpath("//a[.='Prices']")).click();
+        waitInvisibility(By.cssSelector("div[dir=ltr]"));
+        driver.findElement(By.xpath("//input [@name='purchase_price']")).sendKeys(product.getPrice());
+        driver.findElement(By.cssSelector("select[name=purchase_price_currency_code]")).click();
+        scrollToClick(By.cssSelector("option[value='"+product.getCurrency() +"']"));
+        driver.findElement(By.xpath("//input[@name='prices[USD]']")).sendKeys(product.getPrice());
+        //cохранить
+        driver.findElement(By.cssSelector("button[value=Save] ")).click();
+
+
     }
 
 }

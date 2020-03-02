@@ -10,6 +10,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeSuite;
 
+import java.io.File;
 import java.util.concurrent.TimeUnit;
 
 public class TestBase {
@@ -35,6 +36,11 @@ public class TestBase {
         WebElement element = driver.findElement(locator);
         js.executeScript("arguments[0].scrollIntoView();", element);
         element.click();
+    }
+    public void attach (By locator, File file) {
+        if (file != null) {
+            driver.findElement(locator).sendKeys(file.getAbsolutePath());
+        }
     }
 
     @BeforeSuite
