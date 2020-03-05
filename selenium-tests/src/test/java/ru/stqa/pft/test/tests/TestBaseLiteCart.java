@@ -39,6 +39,7 @@ public class TestBaseLiteCart {
         ;
         wait.until(ExpectedConditions.visibilityOf(driver.findElement(locator)));
     }
+
     public void waitInvisibility(By locator){
         new WebDriverWait(driver, 5).until(ExpectedConditions.invisibilityOfElementLocated(locator));
     }

@@ -3,12 +3,14 @@ package ru.stqa.pft.test.tests;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.Color;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 import ru.stqa.pft.test.models.Colour;
 
 import java.util.List;
 import java.util.StringTokenizer;
 
+import static org.testng.Assert.*;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
@@ -38,23 +40,23 @@ public class MainPageTest extends TestBase {
         assertEquals(mainPageOldPriceFont, "line-through");//шрифт зачеркнутый
         String mainPageOldPriceColour = duck.findElement(By.cssSelector("s")).getCssValue("color"); //RGBa представлении одинаковые значения для каналов R, G и B)
         getElementColour(mainPageOldPriceColour);
-       assertTrue(getElementColour(mainPageOldPriceColour).getR() == getElementColour(mainPageOldPriceColour).getG() &  getElementColour(mainPageOldPriceColour).getG() == getElementColour(mainPageOldPriceColour).getB());// серый цвет
+        assertTrue(getElementColour(mainPageOldPriceColour).getR() == getElementColour(mainPageOldPriceColour).getG() & getElementColour(mainPageOldPriceColour).getG() == getElementColour(mainPageOldPriceColour).getB());// серый цвет
 
-        System.out.println("ElementColour= "+mainPageOldPriceColour);
+        System.out.println("ElementColour= " + mainPageOldPriceColour);
 
 
         String mainPageOldPriceSize = duck.findElement(By.cssSelector("s")).getCssValue("font-size");
-        mainPageOldPriceSize = mainPageOldPriceSize.substring(0,mainPageOldPriceSize.length()-4);
+        mainPageOldPriceSize = mainPageOldPriceSize.substring(0, mainPageOldPriceSize.length() - 4);
         String mainPageNewPriceSize = duck.findElement(By.cssSelector("strong")).getCssValue("font-size");
-        mainPageNewPriceSize = mainPageNewPriceSize.substring(0,mainPageNewPriceSize.length()-2);
+        mainPageNewPriceSize = mainPageNewPriceSize.substring(0, mainPageNewPriceSize.length() - 2);
         assertTrue(Integer.parseInt(mainPageOldPriceSize) < Integer.parseInt(mainPageNewPriceSize)); //д)размер цены
 
         String mainPageNewPriceFont = duck.findElement(By.cssSelector("strong")).getCssValue("font-weight");
-        System.out.println("NewPriceFont "+mainPageNewPriceFont);
+        System.out.println("NewPriceFont " + mainPageNewPriceFont);
         //assertEquals(mainPageNewPriceFont, "bold"); - проверка не работает, браузер Chrome отдает какое-то число
         String mainPageNewPriceColour = duck.findElement(By.cssSelector("strong")).getCssValue("color"); //RGBa представлении каналы G и B имеют нулевые значения
         getElementColour(mainPageNewPriceColour); //подходит для Хрома
-        assertTrue(getElementColour(mainPageNewPriceColour).getG() == getElementColour(mainPageNewPriceColour).getB() &  getElementColour(mainPageNewPriceColour).getB() == 0);//красный цвет
+        assertTrue(getElementColour(mainPageNewPriceColour).getG() == getElementColour(mainPageNewPriceColour).getB() & getElementColour(mainPageNewPriceColour).getB() == 0);//красный цвет
 
         duck.click();
         //внутренняя
@@ -65,7 +67,7 @@ public class MainPageTest extends TestBase {
         String innerPageOldPriceFont = duckInner.findElement(By.cssSelector("s")).getCssValue("text-decoration-line");
         assertEquals(innerPageOldPriceFont, "line-through");//шрифт зачеркнутый
         String innerPageNewPriceFont = duckInner.findElement(By.cssSelector("strong")).getCssValue("font-weight");
-        System.out.println("NewPriceFont "+mainPageNewPriceFont);
+        System.out.println("NewPriceFont " + mainPageNewPriceFont);
         //assertEquals(innerPageNewPriceFont, "bold"); - проверка не работает, браузер Chrome отдает какое-то число
         String innerPageOldPriceColour = duckInner.findElement(By.cssSelector("s")).getCssValue("color"); //RGBa представлении одинаковые значения для каналов R, G и B)
         getElementColour(innerPageOldPriceColour);
@@ -78,11 +80,12 @@ public class MainPageTest extends TestBase {
                 getElementColour(innerPageNewPriceColour).getB() == 0);//красный цвет
 
         String innerPageOldPriceSize = duckInner.findElement(By.cssSelector("s")).getCssValue("font-size");
-        System.out.println("PriceSize= "+ innerPageOldPriceSize);
-        innerPageOldPriceSize = innerPageOldPriceSize.substring(0,innerPageOldPriceSize.length()-2);
+        System.out.println("PriceSize= " + innerPageOldPriceSize);
+        innerPageOldPriceSize = innerPageOldPriceSize.substring(0, innerPageOldPriceSize.length() - 2);
         String innerPageNewPriceSize = duckInner.findElement(By.cssSelector("strong")).getCssValue("font-size");
-        System.out.println("PriceSizeNew= "+ innerPageNewPriceSize);;
-        innerPageNewPriceSize = innerPageNewPriceSize.substring(0,innerPageNewPriceSize.length()-2);
+        System.out.println("PriceSizeNew= " + innerPageNewPriceSize);
+        ;
+        innerPageNewPriceSize = innerPageNewPriceSize.substring(0, innerPageNewPriceSize.length() - 2);
         assertTrue(Integer.parseInt(innerPageOldPriceSize) < Integer.parseInt(innerPageNewPriceSize)); //д)размер цены
 
 // ассерты
@@ -119,12 +122,52 @@ public class MainPageTest extends TestBase {
         System.out.println("Font-size new: " + mainPageNewPriceFont);
         assertEquals(mainPageNewPriceFont, "bold");
 
+    }
 
+    @Test
+    public void testShopping() {
+        driver.navigate().to("http://localhost:8080/litecart/en/");
+        //а главной
+        waitIsElementPresent(By.xpath("//input[@placeholder='Search']"));
+        for (int i = 0; i < 3; i++) {
+            List<WebElement> myProduct = driver.findElements(By.cssSelector("li[class^='product']"));
+            myProduct.get(i).click();
+            //на стр продукта
+            WebElement basketBefore = driver.findElement(By.xpath("//span[@class='quantity']"));
+            int before = Integer.parseInt(basketBefore.getText());
+            //проверить нужно ли выбрать размер:
+            if (isElementPresent(By.xpath("//select[@name='options[Size]']"))) {
+                select(By.xpath("//select[@name='options[Size]']"),
+                        "Small", By.xpath("//select[@name='options[Size]']//option[@value='Small']")); ////select[@name='options[Size]']//option[@value='Small']
+            }
+            //добавить в корзину
+            driver.findElement(By.xpath("//button[.='Add To Cart']")).click();
+            //подождать что корзина обновиться:
+            waitTextOfElementPresent((By.xpath("//span[@class='quantity' ]")), String.valueOf(before + 1));
+            //вернуться на главную
+            driver.findElement(By.cssSelector("i[title='Home']")).click();
+            waitInvisibility(By.xpath("//button[.='Add To Cart']"));
 
-
-
-
-
-
+        }        //открыть корзину
+        driver.findElement(By.xpath("//div[@id='cart']")).click();
+        waitInvisibility(By.xpath("//input[@placeholder='Search']"));
+        //заголовок в корзине
+        driver.findElement(By.xpath("//span[.='Customer Service']"));
+        //проверить есть ли элементы:
+        //if (isElementPresent(By.xpath("//button[.='Remove']"))) {
+        //найти запись в таблице
+       // waitElementPresent(By.xpath("//li[@class='item']//a[@class='image-wrapper shadow']"));
+        WebElement table = driver.findElement(By.xpath("//table[@class='dataTable rounded-corners']"));
+        presenceOfAllElementsLocatedBy(By.xpath("//li[@class='item']//a[@class='image-wrapper shadow']"));
+        List<WebElement> products = driver
+                .findElements(By.xpath("//li[@class='item']//a[@class='image-wrapper shadow']"));
+        int numberList = products.size();
+        for (int i = 0; i < numberList; i++) {
+            WebElement bord = driver.findElement(By.xpath("//li[@class='item']"));
+            products = bord.findElements(By.xpath(".//button[.='Remove']"));
+            products.get(i).click();
+            waitStalenessOf(table);
+        }
     }
 }
+
