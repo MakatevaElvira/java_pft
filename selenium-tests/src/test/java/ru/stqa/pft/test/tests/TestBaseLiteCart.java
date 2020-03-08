@@ -1,14 +1,12 @@
 package ru.stqa.pft.test.tests;
 
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.Select;
-import org.openqa.selenium.support.ui.Wait;
-import org.openqa.selenium.support.ui.WebDriverWait;
+import org.openqa.selenium.support.ui.*;
 import org.testng.Assert;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeSuite;
@@ -18,6 +16,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 public class TestBaseLiteCart {
@@ -103,6 +102,17 @@ public class TestBaseLiteCart {
         WebElement element = driver.findElement(locator);
         js.executeScript("arguments[0].scrollIntoView();", element);
         element.click();
+    }
+    public ExpectedCondition<String> anyWindowOtherThan(Set<String> existingWindows) {
+        return new ExpectedCondition<String>() {
+            @NullableDecl
+            @Override
+            public String apply(@NullableDecl WebDriver driver) {
+                Set<String> handles = driver.getWindowHandles();
+                handles.removeAll(existingWindows);
+                return handles.size()>0? handles.iterator().next():null;
+            }
+        };
     }
 
 

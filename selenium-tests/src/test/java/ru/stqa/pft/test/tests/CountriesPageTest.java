@@ -1,14 +1,14 @@
 package ru.stqa.pft.test.tests;
 
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.FluentWait;
-import org.openqa.selenium.support.ui.Wait;
-import org.openqa.selenium.support.ui.WebDriverWait;
+import org.openqa.selenium.support.ui.*;
 import org.testng.annotations.Test;
 
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import static java.util.concurrent.TimeUnit.SECONDS;
@@ -52,4 +52,25 @@ public class CountriesPageTest extends TestBaseLiteCart {
 
         }
     }
+    @Test
+    public void testSweetToWindow(){
+        driver.navigate().to("http://localhost:8080/litecart/admin/?app=countries&doc=countries");
+        driver.findElement(By.xpath("//tr[@class='row']//a[not(@title='Edit')]")).click();
+        List<WebElement> links = driver.findElements(By.xpath("//i[@class='fa fa-external-link']"));
+        int numberLinks = links.size();
+        for (int i=0; i< numberLinks; i++ ){
+            String mainWindow = driver.getWindowHandle();
+            Set<String> existingWindows = driver.getWindowHandles();
+            links.get(i).click();
+            String newWindow = wait.until(anyWindowOtherThan(existingWindows));
+            //переключаемся
+            driver.switchTo().window(newWindow);
+            driver.close();
+            //возвращаемся
+            driver.switchTo().window(mainWindow);
+        }
+
+    }
+
+
 }
