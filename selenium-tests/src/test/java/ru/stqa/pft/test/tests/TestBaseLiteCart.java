@@ -6,11 +6,14 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.support.events.AbstractWebDriverEventListener;
+import org.openqa.selenium.support.events.EventFiringWebDriver;
 import org.openqa.selenium.support.ui.*;
 import org.testng.Assert;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
+import ru.stqa.pft.test.listener.MyListener;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -20,9 +23,12 @@ import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 public class TestBaseLiteCart {
-    public static ThreadLocal<WebDriver> tlDriver = new ThreadLocal<>();
-    public WebDriver driver;
+    public static ThreadLocal<EventFiringWebDriver> tlDriver = new ThreadLocal<>();
+    public EventFiringWebDriver driver;
     public WebDriverWait wait;
+
+
+    ;
 
     public boolean isElementPresent(By by) {
         try {
@@ -113,13 +119,18 @@ public class TestBaseLiteCart {
                 return handles.size()>0? handles.iterator().next():null;
             }
         };
+
+    }
+    public void waitStalenessOf(WebElement element){
+        new WebDriverWait(driver, 10).until(ExpectedConditions.stalenessOf(element));
     }
 
 
     @BeforeSuite
     public void start(){
-        driver = new ChromeDriver();
-        driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
+        driver = new EventFiringWebDriver(new ChromeDriver());
+        driver.register(new MyListener());
+        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
         driver.manage().timeouts().pageLoadTimeout(20, TimeUnit.SECONDS);
         wait = new WebDriverWait(driver,10);
         login();

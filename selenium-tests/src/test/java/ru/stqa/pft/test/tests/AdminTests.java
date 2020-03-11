@@ -101,6 +101,27 @@ public class AdminTests extends TestBaseLiteCart {
         driver.findElement(By.xpath("//input[@name='prices[USD]']")).sendKeys(product.getPrice());
         //cохранить
         driver.findElement(By.cssSelector("button[value=Save] ")).click();
+    }
+
+    @Test
+    public void testBrowserLogsOfProducts(){
+        driver.get("http://localhost:8080/litecart/admin/?app=catalog&doc=catalog&category_id=1");
+        driver.findElement(By.cssSelector("h1"));
+        WebElement subcategory = driver.findElement(By.xpath("//a[.='Subcategory']"));
+        subcategory.click();
+        List<WebElement> products = driver.findElements(By.xpath("//td/a[not(@title='Edit')]"));
+        int numberProducts = products.size();
+        for (int i=0;i < numberProducts;i++){
+            products = driver.findElements(By.xpath("//td/a[not(@title='Edit')]"));
+            products.get(i).click();
+            driver.findElement(By.cssSelector("h1"));
+            driver.manage().logs().get("browser").forEach(logEntry -> System.out.println(logEntry));
+            List logs =driver.manage().logs().get("browser").getAll();
+            Assert.assertTrue(logs.isEmpty());
+            driver.findElement(By.xpath("//span/button[@name='cancel']")).click();
+
+
+        }
 
 
     }
