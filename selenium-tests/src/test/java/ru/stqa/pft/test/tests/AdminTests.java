@@ -1,26 +1,22 @@
 package ru.stqa.pft.test.tests;
 
+import net.lightbody.bmp.core.har.Har;
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-import org.w3c.dom.html.HTMLElement;
 import ru.stqa.pft.test.models.Product;
 
 import java.io.File;
 import java.util.List;
 
-public class AdminTests extends TestBaseLiteCart {
-
-
+public class AdminTests extends TestBaseLiteCartProxy {
 
 
     @Test(enabled = false)
     public void testAdminCycleBad() {
         List<WebElement> treeElements = driver.findElements(By.xpath("//li[@id='app-']"));
-        for (WebElement row: treeElements) { //WebElement row : treeElements
+        for (WebElement row : treeElements) { //WebElement row : treeElements
             WebElement tree = driver.findElement(By.xpath("//div[@id='box-apps-menu-wrapper']"));
             row = tree.findElement(By.xpath(".//li[@id='app-']"));
             row.isDisplayed();
@@ -40,16 +36,16 @@ public class AdminTests extends TestBaseLiteCart {
 
     @Test()
     public void testAdminCycle() {
-       List<WebElement> treeElements = driver.findElements(By.xpath("//li[@id='app-']"));
+        List<WebElement> treeElements = driver.findElements(By.xpath("//li[@id='app-']"));
         int numberListElements = treeElements.size();
-        for (int i = 0; i < numberListElements ; i++) { //WebElement row : treeElements
+        for (int i = 0; i < numberListElements; i++) { //WebElement row : treeElements
             WebElement tree = driver.findElement(By.xpath("//div[@id='box-apps-menu-wrapper']"));
             treeElements = tree.findElements(By.xpath(".//li[@id='app-']"));
-           treeElements.get(i).isDisplayed();
+            treeElements.get(i).isDisplayed();
             treeElements.get(i).click();
             List<WebElement> blockElements = driver.findElements(By.cssSelector("ul.docs a"));
             int numberListBlocks = blockElements.size();
-            for (int k = 0; k < numberListBlocks ; k++) {
+            for (int k = 0; k < numberListBlocks; k++) {
                 WebElement block = driver.findElement(By.cssSelector("ul.docs"));
                 block.isDisplayed();
                 blockElements = block.findElements(By.tagName("a"));
@@ -60,11 +56,12 @@ public class AdminTests extends TestBaseLiteCart {
 
         }
     }
+
     @Test()
     public void testAdminCycleLittle() {
         List<WebElement> treeElements = driver.findElements(By.xpath("//div[@id='box-apps-menu-wrapper']//a"));
         int numberListElements = treeElements.size();
-        for (int i = 0; i < numberListElements ; i++) { //WebElement row : treeElements
+        for (int i = 0; i < numberListElements; i++) { //WebElement row : treeElements
             WebElement tree = driver.findElement(By.xpath("//div[@id='box-apps-menu-wrapper']"));
             treeElements = tree.findElements(By.xpath(".//a"));
             treeElements.get(i).isDisplayed();
@@ -74,8 +71,9 @@ public class AdminTests extends TestBaseLiteCart {
 
         }
     }
+
     @Test()
-    public void testAddNewProduct(){
+    public void testAddNewProduct() {
         File photo = new File("src/test/resources/rizen.png");
         Product product = new Product().withName("Dog").withPhoto(photo)
                 .withDiscription("Beautiful dog").withPrice("1000")
@@ -87,7 +85,7 @@ public class AdminTests extends TestBaseLiteCart {
         driver.findElement(By.xpath("//a[.='General']")).isDisplayed();
         driver.findElement(By.xpath("//input[@value='1' and @type='radio']")).click();
         driver.findElement(By.cssSelector("input[name='name[en]']")).sendKeys(product.getName());
-        attach(By.cssSelector("input[type='file']"),product.getPhoto());
+        attach(By.cssSelector("input[type='file']"), product.getPhoto());
         //Information
         driver.findElement(By.xpath("//a[.='Information']")).click();
         waitInvisibility(By.cssSelector("input[type='file']"));
@@ -97,35 +95,32 @@ public class AdminTests extends TestBaseLiteCart {
         waitInvisibility(By.cssSelector("div[dir=ltr]"));
         driver.findElement(By.xpath("//input [@name='purchase_price']")).sendKeys(product.getPrice());
         driver.findElement(By.cssSelector("select[name=purchase_price_currency_code]")).click();
-        scrollToClick(By.cssSelector("option[value='"+product.getCurrency() +"']"));
+        scrollToClick(By.cssSelector("option[value='" + product.getCurrency() + "']"));
         driver.findElement(By.xpath("//input[@name='prices[USD]']")).sendKeys(product.getPrice());
         //cохранить
         driver.findElement(By.cssSelector("button[value=Save] ")).click();
     }
 
     @Test
-    public void testBrowserLogsOfProducts(){
+    public void testBrowserLogsOfProducts() {
         driver.get("http://localhost:8080/litecart/admin/?app=catalog&doc=catalog&category_id=1");
         driver.findElement(By.cssSelector("h1"));
         WebElement subcategory = driver.findElement(By.xpath("//a[.='Subcategory']"));
         subcategory.click();
         List<WebElement> products = driver.findElements(By.xpath("//td/a[not(@title='Edit')]"));
         int numberProducts = products.size();
-        for (int i=0;i < numberProducts;i++){
+        for (int i = 0; i < numberProducts; i++) {
             products = driver.findElements(By.xpath("//td/a[not(@title='Edit')]"));
             products.get(i).click();
             driver.findElement(By.cssSelector("h1"));
             driver.manage().logs().get("browser").forEach(logEntry -> System.out.println(logEntry));
-            List logs =driver.manage().logs().get("browser").getAll();
+            List logs = driver.manage().logs().get("browser").getAll();
             Assert.assertTrue(logs.isEmpty());
             driver.findElement(By.xpath("//span/button[@name='cancel']")).click();
 
-
         }
 
-
     }
-
 
 }
 

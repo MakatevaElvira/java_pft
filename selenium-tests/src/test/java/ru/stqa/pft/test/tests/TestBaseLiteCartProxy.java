@@ -1,10 +1,14 @@
 package ru.stqa.pft.test.tests;
 
+import net.lightbody.bmp.BrowserMobProxy;
+import net.lightbody.bmp.BrowserMobProxyServer;
+import net.lightbody.bmp.client.ClientUtil;
 import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.events.AbstractWebDriverEventListener;
 import org.openqa.selenium.support.events.EventFiringWebDriver;
@@ -22,10 +26,11 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
-public class TestBaseLiteCart {
+public class TestBaseLiteCartProxy {
     public static ThreadLocal<EventFiringWebDriver> tlDriver = new ThreadLocal<>();
     public EventFiringWebDriver driver;
     public WebDriverWait wait;
+    public  BrowserMobProxy proxy;
 
 
     ;
@@ -128,7 +133,15 @@ public class TestBaseLiteCart {
 
     @BeforeSuite
     public void start(){
-        driver = new EventFiringWebDriver(new ChromeDriver());
+        proxy = new BrowserMobProxyServer();
+        proxy.start(0);
+        Proxy seleniumProxy = ClientUtil.createSeleniumProxy(proxy);
+        //свой прокси:
+        Proxy proxy = new Proxy();
+        proxy.setHttpProxy("myProxy:8080");//и его передаем в capabilities
+        DesiredCapabilities capabilities = new DesiredCapabilities();
+        capabilities.setCapability(CapabilityType.PROXY, seleniumProxy);
+        driver = new EventFiringWebDriver(new ChromeDriver(capabilities));
         driver.register(new MyListener());
         driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
         driver.manage().timeouts().pageLoadTimeout(20, TimeUnit.SECONDS);
@@ -142,7 +155,7 @@ public class TestBaseLiteCart {
         driver.findElement(By.name("password")).sendKeys("admin");
         driver.findElement(By.name("login")).click();
     }
-    @AfterSuite
+    @AfterSuite(alwaysRun = true)
     public void stop(){
         driver.quit();
     }

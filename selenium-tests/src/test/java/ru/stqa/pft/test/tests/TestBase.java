@@ -117,7 +117,7 @@ public class TestBase {
         driver.manage().timeouts().pageLoadTimeout(20, TimeUnit.SECONDS);
         wait = new WebDriverWait(driver,10);
     }
-   @AfterSuite
+   @AfterSuite(alwaysRun = true)
     public void stop(){
         driver.quit();
     }

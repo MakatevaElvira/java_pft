@@ -1,4 +1,4 @@
-package ru.stqa.pft.test;
+package ru.stqa.pft.test.tests;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;

@@ -1,20 +1,16 @@
 package ru.stqa.pft.test.tests;
 
-import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.*;
 import org.testng.annotations.Test;
 
 import java.util.List;
 import java.util.Set;
-import java.util.concurrent.TimeUnit;
 
-import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-public class CountriesPageTest extends TestBaseLiteCart {
+public class CountriesPageTest extends TestBaseLiteCartProxy {
 
 
     @Test

@@ -8,6 +8,7 @@ public class Product {
     private String discription;
     private String price;
     private String currency;
+    private int value;
 
     public String getName() {
         return name;
@@ -48,6 +49,11 @@ public class Product {
 
     public Product withCurrency(String currency) {
         this.currency = currency;
+        return this;
+    }
+    public int getValue(){return value;}
+    public Product withValue(int value){
+        this.value = value;
         return this;
     }
 }
