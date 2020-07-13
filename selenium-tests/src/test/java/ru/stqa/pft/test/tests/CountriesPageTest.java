@@ -49,12 +49,12 @@ public class CountriesPageTest extends TestBaseLiteCartProxy {
         }
     }
     @Test
-    public void testSweetToWindow(){
+    public void testSweetToWindow(String parametr) {
         driver.navigate().to("http://localhost:8080/litecart/admin/?app=countries&doc=countries");
         driver.findElement(By.xpath("//tr[@class='row']//a[not(@title='Edit')]")).click();
         List<WebElement> links = driver.findElements(By.xpath("//i[@class='fa fa-external-link']"));
         int numberLinks = links.size();
-        for (int i=0; i< numberLinks; i++ ){
+        for (int i = 0; i < numberLinks; i++) {
             String mainWindow = driver.getWindowHandle();
             Set<String> existingWindows = driver.getWindowHandles();
             links.get(i).click();
@@ -66,6 +66,17 @@ public class CountriesPageTest extends TestBaseLiteCartProxy {
             driver.switchTo().window(mainWindow);
         }
 
+
+    }
+    //@Step("Выбрать номер тел. из списка 'Входящий звонок/Контакт'")
+    public WebElement findUsingEnhancedForLoop(String parametr) {
+        List<WebElement> contacts = driver.findElements(By.xpath("//li[contains(text(),'+')]"));
+        for (WebElement contact : contacts) {
+            if (contact.getAttribute("title").equals(parametr)) {
+                return contact;
+            }
+        }
+        return null;
     }
 
 

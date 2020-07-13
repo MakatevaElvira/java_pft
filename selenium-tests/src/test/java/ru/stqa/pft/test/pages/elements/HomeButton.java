@@ -7,6 +7,7 @@ import ru.yandex.qatools.htmlelements.element.HtmlElement;
 @FindBy(xpath = "//div[@id='cart-wrapper']")
 public class HomeButton extends HtmlElement {
 
+
     @FindBy(xpath = "//span[@class='quantity']")
     public  WebElement HomeButton;
 
