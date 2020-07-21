@@ -10,10 +10,11 @@ dependencies {
     compile 'org.seleniumhq.selenium:selenium-java:3.141.59'
     compile 'org.hamcrest:java-hamcrest:2.0.0.0'
     implementation 'com.jayway.restassured:rest-assured:2.9.0'
+    implementation 'ru.yandex.qatools.htmlelements:htmlelements-matchers:1.20.0'
     compile("net.lightbody.bmp:browsermob-core:2.1.5"){
         exclude module: 'selenium'
     }
-    implementation 'ru.yandex.qatools.htmlelements:htmlelements-matchers:1.20.0'
+
 
 
 }
