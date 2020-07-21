@@ -3,22 +3,44 @@ package ru.stqa.pft.addressbook.model;
 import com.google.gson.annotations.Expose;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
+import org.hibernate.annotations.Type;
 
+import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @XStreamAlias("group")
+@Entity
+@Table(name = "group_list")
 public class GroupData {
   @XStreamOmitField
+  @Id
+  @Column(name = "group_id")
   private  int id = Integer.MAX_VALUE;
+  //private  int id ;
   @Expose
+  @Column(name = "group_name")
   private  String name;
   @Expose
+  @Column(name = "group_header")
+  @Type(type = "text")
   private  String header;
   @Expose
+  @Column(name = "group_footer")
+  @Type(type = "text")
   private  String footer;
+  @ManyToMany(fetch = FetchType.EAGER)// mappedBy = "groups")-смотреть как у групп  //таблица связей Группы с Контактом, текущий столбец Граппа, обратный столбец Контакт ОПИСАНА в Группах
+  @JoinTable(name = "address_in_groups", joinColumns = @JoinColumn (name = "group_id"),
+          inverseJoinColumns =@JoinColumn(name = "id") )
+  private Set <ContactGeneral> contacts = new HashSet<ContactGeneral>();
 
+  public Contacts getContacts() {
+    return new Contacts(contacts);
+  }
 
   public int getId() {     return id;   }
+
 
   public GroupData withId(int id) {
     this.id = id;
@@ -61,7 +83,6 @@ public class GroupData {
             ", name='" + name + '\'' +
             '}';
   }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;
@@ -75,4 +96,5 @@ public class GroupData {
   public int hashCode() {
     return Objects.hash(id, name);
   }
+
 }

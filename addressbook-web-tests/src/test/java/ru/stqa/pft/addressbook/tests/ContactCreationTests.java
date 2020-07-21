@@ -3,10 +3,13 @@ package ru.stqa.pft.addressbook.tests;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.thoughtworks.xstream.XStream;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import ru.stqa.pft.addressbook.model.ContactGeneral;
 import ru.stqa.pft.addressbook.model.Contacts;
+import ru.stqa.pft.addressbook.model.GroupData;
+import ru.stqa.pft.addressbook.model.Groups;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -33,7 +36,7 @@ public class ContactCreationTests extends TestBase {
       XStream xstream = new XStream();
       xstream.processAnnotations(ContactGeneral.class);
       List<ContactGeneral> contacts = (List<ContactGeneral>) xstream.fromXML(xml);
-      return  contacts.stream().map((g) -> new Object[] {g}).collect(Collectors.toList()).iterator();
+      return  contacts.stream().map((c) -> new Object[] {c}).collect(Collectors.toList()).iterator();
     }
   }
   @DataProvider
@@ -47,35 +50,47 @@ public class ContactCreationTests extends TestBase {
       }
       Gson gson = new Gson();
       List<ContactGeneral> contacts = gson.fromJson(json,new TypeToken<List<ContactGeneral>>(){}.getType()); //List<ContactGeneral>.class);
-      return  contacts.stream().map((g) -> new Object[] {g}).collect(Collectors.toList()).iterator();
+      return  contacts.stream().map((c) -> new Object[] {c}).collect(Collectors.toList()).iterator();
+    }
+  }
+  @BeforeMethod
+  public void ensurePreconditions(){
+    if (app.db().groups().size() == 0) {
+      app.goTo().groupPage();
+      app.group().create(new GroupData().withName("Test1"));
     }
   }
   @Test (dataProvider = "validContactsAsJson")
   public void testContactCreation(ContactGeneral contact) throws Exception {
+    Groups groups = app.db().groups();
     app.goTo().contactPage();
-    Contacts before = app.contact().all();
-    app.contact().create(contact);
+    Contacts before = app.db().contacts();
+    File photo = new File("src/test/resources/stru.png");
+    app.contact().create(contact.withPhoto(photo).inGroup(groups.iterator().next()),true);
     assertThat(app.contact().count(), equalTo( before.size() + 1));
-    Contacts after =  app.contact().all();
+    Contacts after =  app.db().contacts();
     assertThat(after, equalTo(
-            before.withAdded(contact.withId(after.stream().mapToInt((g) -> g.getId()).max().getAsInt()))));
+            before.withAdded(contact.withId(after.stream().mapToInt((c) -> c.getId()).max().getAsInt()))));
+    verifyContactListInUI(); // сравнение значений из базы и с интерфейса
 
   }
 
   @Test (enabled = false)
   public void testContactCreationOld() throws Exception {
     app.goTo().contactPage();
-    Contacts before = app.contact().all();
+    Groups groups = app.db().groups();
+    Contacts before = app.db().contacts();
     File photo = new File("src/test/resources/stru.png");
-    ContactGeneral contact = new ContactGeneral().withName("Efilia").withLastname("Liopda").withLastname("Makateva")
-            .withAdress("410003, г.Саратов ул.Кирова д.1")
+    ContactGeneral contact = new ContactGeneral().withName("Efilia").withLastName("Liopda").withLastName("Makateva")
+            .withAddress("410003, г.Саратов ул.Кирова д.1")
             .withEmail("myemail@bk.ru").withEmail2("youemail@gmail.ru").withEmail3("ouremail@yandex.ru")
-            .withHomeNumber("777").withMobileNumber("111-7").withWorkNumber("25 12 2").withPhoto(photo);
-    app.contact().create(contact);
+            .withHomeNumber("777").withMobileNumber("111-7").withWorkNumber("25 12 2").withPhoto(photo)
+            .inGroup(groups.iterator().next());
+    app.contact().create(contact,true);
     assertThat(app.contact().count(), equalTo( before.size() + 1));
     Contacts after =  app.contact().all();
     assertThat(after, equalTo(
-            before.withAdded(contact.withId(after.stream().mapToInt((g) -> g.getId()).max().getAsInt()))));
+            before.withAdded(contact.withId(after.stream().mapToInt((c) -> c.getId()).max().getAsInt()))));
 
   }
 

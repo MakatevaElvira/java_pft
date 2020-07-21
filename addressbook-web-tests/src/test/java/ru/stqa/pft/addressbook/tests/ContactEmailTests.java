@@ -1,7 +1,5 @@
 package ru.stqa.pft.addressbook.tests;
 
-import org.hamcrest.CoreMatchers;
-import org.hamcrest.MatcherAssert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import ru.stqa.pft.addressbook.model.ContactGeneral;
@@ -16,9 +14,9 @@ public class ContactEmailTests extends TestBase {
   @BeforeMethod
   public void ensurePreconditions() {
     app.goTo().contactPage();
-    if (app.contact().all().size() == 0) {
-      app.contact().create(new ContactGeneral().withName("Elvira").withLastname("Makateva")
-              .withEmail("myemail@bk.ru").withEmail2("youemail@gmail.ru").withEmail3("ouremail@yandex.ru"));
+    if (app.db().contacts().size() == 0) {
+      app.contact().create(new ContactGeneral().withName("Elvira").withLastName("Makateva")
+              .withEmail("myemail@bk.ru").withEmail2("youemail@gmail.ru").withEmail3("ouremail@yandex.ru"),false);
     }
   }
   @Test(enabled = false)

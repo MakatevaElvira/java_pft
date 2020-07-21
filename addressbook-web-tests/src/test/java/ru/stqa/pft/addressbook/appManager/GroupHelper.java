@@ -53,7 +53,7 @@ public class GroupHelper extends HelperBase {
     click(By.name("edit"));
   }
 
-  public void submitGroupModificatin() {
+  public void submitGroupModification() {
     click(By.name("update"));
   }
 
@@ -70,7 +70,7 @@ public class GroupHelper extends HelperBase {
     selectGroupById(group.getId());
     initGroupModification();
     fillGroupForm(group);
-    submitGroupModificatin();
+    submitGroupModification();
     groupCache = null;
     returnToGroupPage();
   }

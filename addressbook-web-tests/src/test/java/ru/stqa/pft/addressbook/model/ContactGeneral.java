@@ -3,46 +3,85 @@ package ru.stqa.pft.addressbook.model;
 import com.google.gson.annotations.Expose;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
+import org.hibernate.annotations.Type;
 
+import javax.persistence.*;
 import java.io.File;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @XStreamAlias("contact")
+@Entity
+@Table(name = "addressbook")
 public class ContactGeneral {
   @XStreamOmitField
+  @Id
   private int id = Integer.MAX_VALUE;
   @Expose
+  @Column(name = "firstname")
   private String name;
   @Expose
+  @Column(name = "lastname")
   private String lastName;
   @Expose
+  @Column(name = "home")
+  @Type(type = "text")
   private String homeNumber;
   @Expose
+  @Column(name = "mobile")
+  @Type(type = "text")
   private String mobileNumber;
   @Expose
+  @Column(name = "work")
+  @Type(type = "text")
   private String workNumber;
   @Expose
+  @Transient
   private String allPhones;
+  //@Expose
+  // @Transient // пропустить, не извлекать из базы
+  // private String group; // или в начале строки- transient
   @Expose
+  @Column(name = "email")
+  @Type(type = "text")
   private String email1;
   @Expose
+  @Column(name = "email2")
+  @Type(type = "text")
   private String email2;
   @Expose
+  @Column(name = "email3")
+  @Type(type = "text")
   private String email3;
   @Expose
+  @Transient
   private String allEmails;
   @Expose
+  @Column(name = "address")
+  @Type(type = "text")
   private String address;
   @Expose
-  private File photo;
+  @Column(name = "photo")
+  @Type(type = "text")
+  private String photo;
+  @ManyToMany(fetch = FetchType.EAGER)
+  @JoinTable (name = "address_in_groups", joinColumns = @JoinColumn (name = "id"),
+          inverseJoinColumns =@JoinColumn(name = "group_id") ) //таблица связей Контакта с Группой, текущий столбец Контакты, обратный столбец Групп
 
+  private Set<GroupData> groups= new HashSet<GroupData>();
+
+  public Groups getGroups() {
+    return new Groups(groups);
+
+  }
 
   public ContactGeneral withPhoto(File photo) {
-    this.photo = photo;
+    this.photo = photo.getPath();
     return this;
   }
 
-  public ContactGeneral withAdress(String address) {
+  public ContactGeneral withAddress(String address) {
     this.address = address;
     return this;
   }
@@ -82,7 +121,7 @@ public class ContactGeneral {
     return this;
   }
 
-  public ContactGeneral withLastname(String lastname) {
+  public ContactGeneral withLastName(String lastname) {
     this.lastName = lastname;
     return this;
   }
@@ -101,8 +140,9 @@ public class ContactGeneral {
     this.workNumber = workNumber;
     return this;
   }
+
   public File getPhoto() {
-    return photo;
+    return new File(photo);
   }
 
   public int getId() {
@@ -154,21 +194,6 @@ public class ContactGeneral {
   }
 
   @Override
-  public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
-    ContactGeneral general = (ContactGeneral) o;
-    return id == general.id &&
-            Objects.equals(name, general.name) &&
-            Objects.equals(lastName, general.lastName);
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hash(id, name, lastName);
-  }
-
-  @Override
   public String toString() {
     return "ContactGeneral{" +
             "id='" + id + '\'' +
@@ -177,4 +202,25 @@ public class ContactGeneral {
             '}';
   }
 
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    ContactGeneral general = (ContactGeneral) o;
+    return id == general.id &&
+            Objects.equals(name, general.name) &&
+            Objects.equals(lastName, general.lastName) &&
+            Objects.equals(mobileNumber, general.mobileNumber) &&
+            Objects.equals(address, general.address);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(id, name, lastName, mobileNumber, address);
+  }
+
+  public ContactGeneral inGroup(GroupData group) {
+    groups.add(group);
+    return this;
+  }
 }
