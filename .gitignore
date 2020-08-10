@@ -16,3 +16,4 @@ gradle-app.setting
 *.log
 selenium-tests/screen-1583962428241.png
 *.png
+.idea/*
