@@ -1,5 +1,6 @@
 package ru.stqa.pft.test.pages;
 
+import okhttp3.HttpUrl;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -9,6 +10,7 @@ import org.openqa.selenium.support.PageFactory;
 import java.util.List;
 
 import static org.openqa.selenium.support.ui.ExpectedConditions.presenceOfElementLocated;
+import static ru.stqa.pft.test.utils.UrlFactory.mainUrl;
 
 public class MainPage extends Page {
 
@@ -22,10 +24,12 @@ public class MainPage extends Page {
         driver.get("http://localhost:8080/litecart/en/");
         return this;
     }
-    public  void open() {
-        driver.get("http://localhost:8080/litecart/en/");
-        ;
+    public  void openUrl(HttpUrl.Builder urlBuilder) {
+        driver.get(urlBuilder.toString());
     }
+    public  void open() {
+            openUrl(mainUrl());
+        }
 
     @FindBy(xpath = "//input[@placeholder='Search']")
     public static WebElement search;
